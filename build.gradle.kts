@@ -25,6 +25,15 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation("mysql:mysql-connector-java:8.0.28")
+
+    //jackson
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    // security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+
 }
 
 tasks.withType<KotlinCompile> {
