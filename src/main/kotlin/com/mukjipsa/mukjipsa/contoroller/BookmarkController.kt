@@ -1,8 +1,8 @@
 package com.mukjipsa.mukjipsa.contoroller
 
 import com.mukjipsa.mukjipsa.facade.BookmarkFacade
+import com.mukjipsa.mukjipsa.facade.dto.BookmarkResponseDto
 import com.mukjipsa.mukjipsa.service.AuthService
-import com.mukjipsa.mukjipsa.service.UserService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,9 +19,9 @@ class BookmarkController(
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping
-    fun getBookmarkRecipe(){
-        // TODO 북마크한 레시피 리턴
-        log.info("bookmarkList")
+    fun getBookmarkRecipe(): BookmarkResponseDto {
+        val userId = authService.getUserId()
+        return bookmarkFacade.getBookmarkRecipe(userId)
     }
 
     @PostMapping

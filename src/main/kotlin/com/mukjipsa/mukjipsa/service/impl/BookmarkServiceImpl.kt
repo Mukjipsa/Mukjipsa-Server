@@ -18,6 +18,10 @@ class BookmarkServiceImpl(
     }
 
     override fun addBookmark(userId: Int, recipeId: Int) {
-        bookmarkRepository.save(Bookmark(userId, recipeId))
+        bookmarkRepository.save(Bookmark(userId = userId, recipeId = recipeId))
+    }
+
+    override fun getBookmarkByUserId(userId: Int): List<Bookmark> {
+        return bookmarkRepository.findAllByUserId(userId)
     }
 }

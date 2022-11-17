@@ -7,4 +7,5 @@ interface BookmarkRepository : JpaRepository<Bookmark, Int> {
 
     fun findByUserIdAndRecipeId(userId: Int, recipeId: Int): Bookmark?
 
+    fun findAllByUserId(userId: Int): List<Bookmark>
 }
