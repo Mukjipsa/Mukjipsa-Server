@@ -29,7 +29,7 @@ class AuthServiceImpl(
     }
 
     @Transactional
-    override fun loginWithToken(providerName: String, userToken: String): LoginResponse? {
+    override fun loginWithToken(providerName: String, userToken: String): LoginResponse {
         val user: User = getUserProfileByToken(providerName, userToken)
         val accessToken: String = jwtAuthenticationProvider.generateAccessToken(user.id)
         val refreshToken: String = jwtAuthenticationProvider.generateRefreshToken(user.id)
