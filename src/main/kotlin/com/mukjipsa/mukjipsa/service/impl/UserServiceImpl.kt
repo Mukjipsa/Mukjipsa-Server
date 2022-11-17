@@ -20,4 +20,8 @@ class UserServiceImpl(
             ssoId = user.ssoId,
         )
     }
+
+    override fun getUserById(userId: Int): Optional<User> {
+        return userRepository.findById(userId)
+    }
 }

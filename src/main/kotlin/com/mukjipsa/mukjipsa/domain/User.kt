@@ -1,6 +1,5 @@
 package com.mukjipsa.mukjipsa.domain
 
-import java.time.Instant
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -30,4 +29,8 @@ class User (
 
     @Column(name = "updated_at")
     var updatedAt: LocalDateTime = LocalDateTime.now(),
+
+    @OneToMany
+    @JoinColumn(name = "ingredient_id")
+    val ingredient: MutableList<Ingredient> = mutableListOf()
 )

@@ -1,6 +1,5 @@
 package com.mukjipsa.mukjipsa.domain
 
-import java.time.Instant
 import java.time.LocalDateTime
 import javax.persistence.*
 
