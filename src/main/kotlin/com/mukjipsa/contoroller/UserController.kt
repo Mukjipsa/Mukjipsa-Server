@@ -15,7 +15,7 @@ class UserController(
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
-    @GetMapping("/ingredient")
+    @GetMapping("/ingrgedient")
     fun getMyIngredient(){
         // TODO 내가 가진 재료 리스트.
         log.info("my ingredient")
