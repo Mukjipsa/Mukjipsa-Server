@@ -1,16 +1,14 @@
-package com.mukjipsa.mukjipsa.service.impl
+package com.mukjipsa.service.impl
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.mukjipsa.mukjipsa.common.authentication.jwt.JwtAuthenticationProvider
-import com.mukjipsa.mukjipsa.common.authentication.jwt.JwtAuthenticationToken
-import com.mukjipsa.mukjipsa.common.exception.UserNotFoundException
-import com.mukjipsa.mukjipsa.domain.User
-import com.mukjipsa.mukjipsa.infrastructure.UserRepository
-import com.mukjipsa.mukjipsa.service.AuthService
-import com.mukjipsa.mukjipsa.service.dto.KakaoProfile
-import com.mukjipsa.mukjipsa.service.dto.LoginResponse
-import org.springframework.security.core.context.SecurityContextHolder
+import com.mukjipsa.common.authentication.jwt.JwtAuthenticationProvider
+import com.mukjipsa.common.exception.UserNotFoundException
+import com.mukjipsa.domain.User
+import com.mukjipsa.infrastructure.UserRepository
+import com.mukjipsa.service.AuthService
+import com.mukjipsa.service.dto.KakaoProfile
+import com.mukjipsa.service.dto.LoginResponse
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import javax.transaction.Transactional

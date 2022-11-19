@@ -1,9 +1,9 @@
-package com.mukjipsa.mukjipsa.service.impl
+package com.mukjipsa.service.impl
 
-import com.mukjipsa.mukjipsa.common.authentication.dto.CustomUserDetails
-import com.mukjipsa.mukjipsa.domain.User
-import com.mukjipsa.mukjipsa.infrastructure.UserRepository
-import com.mukjipsa.mukjipsa.service.UserService
+import com.mukjipsa.common.authentication.dto.CustomUserDetails
+import com.mukjipsa.domain.User
+import com.mukjipsa.infrastructure.UserRepository
+import com.mukjipsa.service.UserService
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -19,5 +19,9 @@ class UserServiceImpl(
             provider = user.provider,
             ssoId = user.ssoId,
         )
+    }
+
+    override fun getUserById(userId: Int): Optional<User> {
+        return userRepository.findById(userId)
     }
 }

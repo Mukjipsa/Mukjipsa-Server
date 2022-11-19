@@ -1,6 +1,6 @@
-package com.mukjipsa.mukjipsa.common.authentication.jwt
+package com.mukjipsa.common.authentication.jwt
 
-import com.mukjipsa.mukjipsa.common.authentication.dto.CustomUserDetails
+import com.mukjipsa.common.authentication.dto.CustomUserDetails
 import org.springframework.security.authentication.AbstractAuthenticationToken
 
 class JwtAuthenticationToken : AbstractAuthenticationToken {

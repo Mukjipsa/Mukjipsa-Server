@@ -1,6 +1,6 @@
-package com.mukjipsa.mukjipsa.contoroller
+package com.mukjipsa.contoroller
 
-import com.mukjipsa.mukjipsa.facade.IngredientFacade
+import com.mukjipsa.facade.IngredientFacade
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*

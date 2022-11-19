@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.domain
+package com.mukjipsa.domain
 
 import java.time.Instant
 import javax.persistence.*

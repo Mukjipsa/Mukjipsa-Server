@@ -1,8 +1,8 @@
-package com.mukjipsa.mukjipsa.contoroller
+package com.mukjipsa.contoroller
 
-import com.mukjipsa.mukjipsa.contoroller.dto.LoginRequestDto
-import com.mukjipsa.mukjipsa.service.AuthService
-import com.mukjipsa.mukjipsa.service.dto.LoginResponse
+import com.mukjipsa.contoroller.dto.LoginRequestDto
+import com.mukjipsa.service.AuthService
+import com.mukjipsa.service.dto.LoginResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

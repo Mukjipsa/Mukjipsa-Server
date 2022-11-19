@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.common.authentication.dto
+package com.mukjipsa.common.authentication.dto
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

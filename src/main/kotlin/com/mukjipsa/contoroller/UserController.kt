@@ -1,7 +1,9 @@
-package com.mukjipsa.mukjipsa.contoroller
+package com.mukjipsa.contoroller
 
-import com.mukjipsa.mukjipsa.service.BookmarkService
-import com.mukjipsa.mukjipsa.service.UserService
+import com.mukjipsa.facade.UserFacade
+import com.mukjipsa.facade.dto.UserIngredientResponseDto
+import com.mukjipsa.service.AuthService
+import com.mukjipsa.service.UserService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,13 +13,14 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/user")
 class UserController(
-    private val userService: UserService,
+    private val userFacade: UserFacade,
+    private val authService: AuthService,
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
-    @GetMapping("/ingrgedient")
-    fun getMyIngredient(){
-        // TODO 내가 가진 재료 리스트.
-        log.info("my ingredient")
+    @GetMapping("/ingredient")
+    fun getMyIngredient(): UserIngredientResponseDto {
+        val userId = authService.getUserId()
+        return userFacade.getUserIngredients(userId)
     }
 }

@@ -1,9 +1,9 @@
-package com.mukjipsa.mukjipsa.facade
+package com.mukjipsa.facade
 
-import com.mukjipsa.mukjipsa.service.EssentialIngredientService
-import com.mukjipsa.mukjipsa.service.IngredientService
-import com.mukjipsa.mukjipsa.service.UserIngredientService
-import com.mukjipsa.mukjipsa.service.UserService
+import com.mukjipsa.service.EssentialIngredientService
+import com.mukjipsa.service.IngredientService
+import com.mukjipsa.service.UserIngredientService
+import com.mukjipsa.service.UserService
 import org.springframework.stereotype.Service
 
 @Service

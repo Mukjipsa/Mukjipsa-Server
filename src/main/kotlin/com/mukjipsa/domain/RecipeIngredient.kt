@@ -1,6 +1,6 @@
-package com.mukjipsa.mukjipsa.domain
+package com.mukjipsa.domain
 
-import java.time.Instant
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -19,14 +19,14 @@ class RecipeIngredient (
     var id: Int? = null,
 
     @Column(name = "recipe_id", nullable = false)
-    var recipeId: Int? = null,
+    var recipeId: Int,
 
     @Column(name = "ingredient_id", nullable = false)
-    var ingredientId: Int? = null,
+    var ingredientId: Int,
 
     @Column(name = "created_at")
-    var createdAt: Instant? = null,
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at")
-    var updatedAt: Instant? = null,
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 )

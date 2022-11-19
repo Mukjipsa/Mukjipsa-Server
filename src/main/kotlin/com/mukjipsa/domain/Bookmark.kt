@@ -1,6 +1,6 @@
-package com.mukjipsa.mukjipsa.domain
+package com.mukjipsa.domain
 
-import java.time.Instant
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -15,17 +15,17 @@ class Bookmark (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    var id: Int? = null,
+    var id: Int = 0,
 
     @Column(name = "user_id", nullable = false)
-    var userId: Int? = null,
+    var userId: Int,
 
     @Column(name = "recipe_id", nullable = false)
-    var recipeId: Int? = null,
+    var recipeId: Int,
 
     @Column(name = "created_at")
-    var createdAt: Instant? = null,
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at")
-    var updatedAt: Instant? = null,
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 )

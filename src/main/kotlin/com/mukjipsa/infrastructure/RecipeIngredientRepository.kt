@@ -1,6 +1,6 @@
-package com.mukjipsa.mukjipsa.infrastructure;
+package com.mukjipsa.infrastructure;
 
-import com.mukjipsa.mukjipsa.domain.RecipeIngredient
+import com.mukjipsa.domain.RecipeIngredient
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface RecipeIngredientRepository : JpaRepository<RecipeIngredient, Int> {

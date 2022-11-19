@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.common.authentication.exception
+package com.mukjipsa.common.authentication.exception
 
 enum class JWTExceptionCode(
     val code: String,

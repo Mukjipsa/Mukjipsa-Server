@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.common.authentication.jwt
+package com.mukjipsa.common.authentication.jwt
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts

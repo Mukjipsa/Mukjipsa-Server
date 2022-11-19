@@ -1,8 +1,8 @@
-package com.mukjipsa.mukjipsa.facade
+package com.mukjipsa.facade
 
-import com.mukjipsa.mukjipsa.service.RecipeIngredientService
-import com.mukjipsa.mukjipsa.service.RecipeService
-import com.mukjipsa.mukjipsa.service.UserIngredientService
+import com.mukjipsa.service.RecipeIngredientService
+import com.mukjipsa.service.RecipeService
+import com.mukjipsa.service.UserIngredientService
 import org.springframework.stereotype.Service
 
 @Service

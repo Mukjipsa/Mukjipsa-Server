@@ -1,7 +1,7 @@
-package com.mukjipsa.mukjipsa.service.impl
+package com.mukjipsa.service.impl
 
-import com.mukjipsa.mukjipsa.infrastructure.CategoryRepository
-import com.mukjipsa.mukjipsa.service.CategoryService
+import com.mukjipsa.infrastructure.CategoryRepository
+import com.mukjipsa.service.CategoryService
 import org.springframework.stereotype.Service
 
 @Service

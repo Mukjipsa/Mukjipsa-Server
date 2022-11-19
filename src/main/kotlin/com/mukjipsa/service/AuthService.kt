@@ -1,6 +1,6 @@
-package com.mukjipsa.mukjipsa.service
+package com.mukjipsa.service
 
-import com.mukjipsa.mukjipsa.service.dto.LoginResponse
+import com.mukjipsa.service.dto.LoginResponse
 import javax.transaction.Transactional
 
 interface AuthService {

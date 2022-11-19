@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.service.dto
+package com.mukjipsa.service.dto
 
 data class KakaoProfile(
     var id: String? = null,

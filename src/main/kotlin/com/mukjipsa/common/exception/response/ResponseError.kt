@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.common.exception.response
+package com.mukjipsa.common.exception.response
 
 import org.springframework.validation.BindingResult
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException

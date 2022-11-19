@@ -1,6 +1,8 @@
-package com.mukjipsa.mukjipsa.contoroller
+package com.mukjipsa.contoroller
 
-import com.mukjipsa.mukjipsa.facade.BookmarkFacade
+import com.mukjipsa.facade.BookmarkFacade
+import com.mukjipsa.facade.dto.BookmarkResponseDto
+import com.mukjipsa.service.AuthService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,19 +14,19 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/bookmark")
 class BookmarkController(
     private val bookmarkFacade: BookmarkFacade,
+    private val authService: AuthService,
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping
-    fun getBookmarkRecipe(){
-        // TODO 북마크한 레시피 리턴
-        log.info("bookmarkList")
+    fun getBookmarkRecipe(): BookmarkResponseDto {
+        val userId = authService.getUserId()
+        return bookmarkFacade.getBookmarkRecipe(userId)
     }
 
     @PostMapping
     fun toggleBookmark(recipeId: Int) {
-        // TODO 레시피 북마크 추가 삭제 기능.
-        // 토글로 구현 필요.
-        log.info("toggle bookmark")
+        val userId = authService.getUserId()
+        bookmarkFacade.toggleBookmark(userId, recipeId)
     }
 }

@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.contoroller
+package com.mukjipsa.contoroller
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

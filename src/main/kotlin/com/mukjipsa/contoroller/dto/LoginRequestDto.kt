@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.contoroller.dto
+package com.mukjipsa.contoroller.dto
 
 data class LoginRequestDto(
     val provider: String,

@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.common.exception.response
+package com.mukjipsa.common.exception.response
 
 enum class CodeError(
     val status: Int, /* 계속 추가 가능 */

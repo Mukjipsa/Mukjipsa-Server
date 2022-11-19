@@ -1,7 +1,7 @@
-package com.mukjipsa.mukjipsa.service.impl
+package com.mukjipsa.service.impl
 
-import com.mukjipsa.mukjipsa.infrastructure.EssentialIngredientRepository
-import com.mukjipsa.mukjipsa.service.EssentialIngredientService
+import com.mukjipsa.infrastructure.EssentialIngredientRepository
+import com.mukjipsa.service.EssentialIngredientService
 import org.springframework.stereotype.Service
 
 @Service

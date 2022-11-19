@@ -1,6 +1,6 @@
-package com.mukjipsa.mukjipsa.domain
+package com.mukjipsa.domain
 
-import java.time.Instant
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -9,10 +9,10 @@ class Recipe (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    var id: Int? = null,
+    var id: Int,
 
     @Column(name = "title", nullable = false, length = 200)
-    var title: String? = null,
+    var title: String,
 
     @Lob
     @Column(name = "thumbnail")
@@ -27,8 +27,12 @@ class Recipe (
     var content: String? = null,
 
     @Column(name = "created_at")
-    var createdAt: Instant? = null,
+    var createdAt: LocalDateTime? = LocalDateTime.now(),
 
     @Column(name = "updated_at")
-    var updatedAt: Instant? = null,
+    var updatedAt: LocalDateTime? = LocalDateTime.now(),
+
+    @OneToMany
+    @JoinColumn(name = "ingredient_id")
+    val ingredients: MutableList<Ingredient> = mutableListOf()
 )

@@ -1,7 +1,7 @@
-package com.mukjipsa.mukjipsa.common.exception
+package com.mukjipsa.common.exception
 
-import com.mukjipsa.mukjipsa.common.exception.response.CodeError
-import com.mukjipsa.mukjipsa.common.exception.response.ResponseError
+import com.mukjipsa.common.exception.response.CodeError
+import com.mukjipsa.common.exception.response.ResponseError
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

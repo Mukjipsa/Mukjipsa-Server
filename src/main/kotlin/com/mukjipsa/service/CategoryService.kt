@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.service
+package com.mukjipsa.service
 
 interface CategoryService {
 }

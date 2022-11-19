@@ -1,7 +1,7 @@
-package com.mukjipsa.mukjipsa.common.authentication.jwt
+package com.mukjipsa.common.authentication.jwt
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.mukjipsa.mukjipsa.common.authentication.exception.JWTExceptionCode
+import com.mukjipsa.common.authentication.exception.JWTExceptionCode
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.MalformedJwtException

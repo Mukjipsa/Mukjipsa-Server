@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa.common.authentication.jwt
+package com.mukjipsa.common.authentication.jwt
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager

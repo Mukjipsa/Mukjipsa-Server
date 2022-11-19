@@ -1,8 +1,7 @@
-package com.mukjipsa.mukjipsa.common.authentication.jwt
+package com.mukjipsa.common.authentication.jwt
 
-import com.mukjipsa.mukjipsa.common.authentication.dto.CustomUserDetails
-import com.mukjipsa.mukjipsa.common.exception.UserNotFoundException
-import com.mukjipsa.mukjipsa.service.UserService
+import com.mukjipsa.common.exception.UserNotFoundException
+import com.mukjipsa.service.UserService
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys

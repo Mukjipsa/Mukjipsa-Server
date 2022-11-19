@@ -1,4 +1,4 @@
-package com.mukjipsa.mukjipsa
+package com.mukjipsa
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

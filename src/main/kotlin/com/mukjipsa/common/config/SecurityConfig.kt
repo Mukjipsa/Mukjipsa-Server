@@ -1,9 +1,9 @@
-package com.mukjipsa.mukjipsa.common.config
+package com.mukjipsa.common.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.mukjipsa.mukjipsa.common.authentication.jwt.JwtAuthenticationFilter
-import com.mukjipsa.mukjipsa.common.authentication.jwt.JwtAuthenticationProvider
-import com.mukjipsa.mukjipsa.common.authentication.jwt.JwtExceptionFilter
+import com.mukjipsa.common.authentication.jwt.JwtAuthenticationFilter
+import com.mukjipsa.common.authentication.jwt.JwtAuthenticationProvider
+import com.mukjipsa.common.authentication.jwt.JwtExceptionFilter
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
