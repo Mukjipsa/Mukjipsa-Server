@@ -6,10 +6,11 @@ import javax.persistence.*
 @Entity
 @Table(
     name = "ingredient", indexes = [
+        Index(name = "ingredient_sub_category_id_index", columnList = "sub_category_id"),
         Index(name = "ingredient_category_id_index", columnList = "category_id")
     ]
 )
-class Ingredient (
+class Ingredient(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -21,6 +22,9 @@ class Ingredient (
     @Column(name = "category_id", nullable = false)
     var categoryId: Int,
 
+    @Column(name = "sub_category_id", nullable = false)
+    var subCategoryId: Int,
+
     @Column(name = "created_at")
     var createdAt: LocalDateTime = LocalDateTime.now(),
 
@@ -30,4 +34,8 @@ class Ingredient (
     @OneToOne
     @JoinColumn(name = "id")
     val category: Category,
+
+    @OneToOne
+    @JoinColumn(name = "id")
+    val subCategory: SubCategory,
 )
