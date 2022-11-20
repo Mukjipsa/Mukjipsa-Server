@@ -37,9 +37,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     // https://mvnrepository.com/artifact/com.google.apis/google-api-services-youtube
-    implementation("com.google.apis:google-api-services-youtube:v3-rev222-1.25.0")
-
-
+    implementation("com.google.apis:google-api-services-youtube:v3-rev212-1.25.0")
 }
 
 tasks.withType<KotlinCompile> {

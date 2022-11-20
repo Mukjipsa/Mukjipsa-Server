@@ -9,7 +9,7 @@ class Recipe (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    var id: Int,
+    var id: Int = 0,
 
     @Column(name = "title", nullable = false, length = 200)
     var title: String,
