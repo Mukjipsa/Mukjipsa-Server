@@ -39,31 +39,23 @@ class RecipeFacade(
         val haveIngredientId = userService.getUserById(userId).get().ingredient.map {
             it.id
         }
-        println("11111")
 
-        var ingredientIdsMutable: MutableList<Int> = mutableListOf<Int>()
         //recipe Id를 가진 ingredient 불러오기
-        val ingredients = recipeIngredientService.getIngredientByRecipeId(recipeId).map{
-            ingredientIdsMutable.add(it.ingredientId)
+        val ingredientIds = recipeIngredientService.getIngredientByRecipeId(recipeId).map{
+            it.ingredientId
         }
 
-        println("22222")
-
-        var ingredientIds = ingredientIdsMutable.toList()
         var ingredientList = ingredientService.getIngredientByIdIn(ingredientIds)
 
-        println("3333333")
-
         val recipe = recipeService.getRecipe(recipeId).get()
-        println("44444")
 
         val recipeDto = RecipeDto(
-                    content = recipe.content,
-                    createdAt = recipe.createdAt,
                     id = recipe.id,
+                    content = recipe.content,
                     link = recipe.link,
                     thumbnail = recipe.thumbnail,
                     title = recipe.title,
+                    createdAt = recipe.createdAt,
                     updatedAt = recipe.updatedAt,
                     ingredients = ingredientList.map {
                         IngredientDto(
