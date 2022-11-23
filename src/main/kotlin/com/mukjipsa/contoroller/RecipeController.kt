@@ -1,5 +1,8 @@
 package com.mukjipsa.contoroller
 
+import RecipeResponseDto
+import com.mukjipsa.facade.RecipeFacade
+import com.mukjipsa.service.AuthService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,22 +21,23 @@ class RecipeController(
     @GetMapping
     fun getRecipeList(){
         // TODO 레시피 리스트.
-        val userId = authService.getUserId()
-        return bookmarkFacade.getRecipeList(userId)
+        //return recipeFacade.getRecipeList()
     }
 
     @GetMapping("/{recipeId}")
-    fun getRecipe(@PathVariable recipeId: String){
+    fun getRecipe(@PathVariable recipeId: String):RecipeResponseDto{
         // TODO 특정 레시피 조회.
         val userId = authService.getUserId()
-        return bookmarkFacade.getRecipe(userId,recipeId)
+        val recipeId = Integer.valueOf(recipeId)
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        return recipeFacade.getRecipe(userId,recipeId)
     }
 
     @GetMapping("/my")
     fun getRecipeForMyIngredient(){
         // TODO 내가 가진 식재료로 만들 수 있는 레시피 리스트.
         val userId = authService.getUserId()
-        return bookmarkFacade.getRecipeList(userId)
+//        return recipeFacade.getRecipeList(userId)
     }
 }
 
