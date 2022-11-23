@@ -34,29 +34,10 @@ class RecipeServiceImpl(
         }
     }
 
-//    override fun getAllRecipe():List<Recipe>{
-//        val haveIngredientId = userService.getUserById(userId).get().ingredient.map {
-//            it.id
-//        }
-//        return recipeRepository.findAll().map {
-//            RecipeDto(
-//                    content = it.content,
-//                    createdAt = it.createdAt,
-//                    id = it.id,
-//                    link = it.link,
-//                    thumbnail = it.thumbnail,
-//                    title = it.title,
-//                    updatedAt = it.updatedAt,
-//                    ingredients = it.ingredients.map {
-//                        IngredientDto(
-//                                categoryType = it.category.name,
-//                                id = it.id,
-//                                name = it.name,
-//                        )
-//                    }
-//            )
-//        }
-//    }
+    override fun getAllRecipe():List<Recipe>{
+        return recipeRepository.findAll()
+    }
+
 
     override fun getRecipe(recipeId: Int): Optional<Recipe> {
         return recipeRepository.findById(recipeId)

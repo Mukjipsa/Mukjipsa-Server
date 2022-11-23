@@ -2,9 +2,7 @@ package com.mukjipsa.facade
 
 import RecipeResponseDto
 import com.mukjipsa.domain.Ingredient
-import com.mukjipsa.facade.dto.IngredientDto
-import com.mukjipsa.facade.dto.RecipeDto
-import com.mukjipsa.facade.dto.RecipeListResponseDto
+import com.mukjipsa.facade.dto.*
 import com.mukjipsa.service.*
 import org.springframework.stereotype.Service
 import org.springframework.http.HttpStatus
@@ -18,21 +16,42 @@ class RecipeFacade(
         private val userService: UserService,
 ) {
     // 레시피 전체 조회
-//    fun getRecipeList(): RecipeListResponseDto {
-//        val recipeList = recipeService.getAllRecipe()
-//        return RecipeResponseDto(
-//                data = ingredientsList.map {
-//                    IngredientDto(
-//                            id = it.id,
-//                            categoryType = it.category.name,
-//                            name = it.name,
-//                    )
-//                },
-//                message = "내가 가진 식재료 조회 성공",
-//                status = HttpStatus.OK.value(),
-//                success = true
-//        )
-//    }
+    fun getAllRecipe(): RecipeListSimpleResponseDto {
+        val recipeList = recipeService.getAllRecipe()
+        val recipeListDto = mutableListOf<RecipeSimpleDto>()
+        recipeList.map{
+            val ingredientIds = recipeIngredientService.getIngredientByRecipeId(it.id).map{
+                it.ingredientId
+            }
+            val ingredientList = ingredientService.getIngredientByIdIn(ingredientIds)
+            val recipeSimpleDto = RecipeSimpleDto(
+                    id = it.id,
+                    content = it.content,
+                    link = it.link,
+                    thumbnail = it.thumbnail,
+                    title = it.title,
+                    createdAt = it.createdAt,
+                    updatedAt = it.updatedAt,
+                    ingredients = ingredientList.map {
+                        IngredientSimpleDto(
+                                categoryType = it.category.name,
+                                id = it.id,
+                                name = it.name,
+                        )
+                    }
+            )
+            recipeListDto.add(recipeSimpleDto)
+        }
+
+        val recipeListSimple = recipeListDto.toList()
+
+        return RecipeListSimpleResponseDto(
+                data = recipeListSimple,
+                message = "레시피 전체 조회 성공",
+                status = HttpStatus.OK.value(),
+                success = true
+        )
+    }
 
     // 레시피 상세 조회
     fun getRecipe(userId: Int, recipeId: Int):RecipeResponseDto{
@@ -45,7 +64,7 @@ class RecipeFacade(
             it.ingredientId
         }
 
-        var ingredientList = ingredientService.getIngredientByIdIn(ingredientIds)
+        val ingredientList = ingredientService.getIngredientByIdIn(ingredientIds)
 
         val recipe = recipeService.getRecipe(recipeId).get()
 

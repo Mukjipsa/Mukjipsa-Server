@@ -2,6 +2,8 @@ package com.mukjipsa.contoroller
 
 import RecipeResponseDto
 import com.mukjipsa.facade.RecipeFacade
+import com.mukjipsa.facade.dto.RecipeListResponseDto
+import com.mukjipsa.facade.dto.RecipeListSimpleResponseDto
 import com.mukjipsa.service.AuthService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -17,11 +19,10 @@ class RecipeController(
         private val authService: AuthService,
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
-
     @GetMapping
-    fun getRecipeList(){
+    fun getAllRecipe(): RecipeListSimpleResponseDto {
         // TODO 레시피 리스트.
-        //return recipeFacade.getRecipeList()
+        return recipeFacade.getAllRecipe()
     }
 
     @GetMapping("/{recipeId}")
@@ -29,7 +30,6 @@ class RecipeController(
         // TODO 특정 레시피 조회.
         val userId = authService.getUserId()
         val recipeId = Integer.valueOf(recipeId)
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         return recipeFacade.getRecipe(userId,recipeId)
     }
 
@@ -37,7 +37,7 @@ class RecipeController(
     fun getRecipeForMyIngredient(){
         // TODO 내가 가진 식재료로 만들 수 있는 레시피 리스트.
         val userId = authService.getUserId()
-//        return recipeFacade.getRecipeList(userId)
+        return recipeFacade.getMyRecipe(userId)
     }
 }
 
