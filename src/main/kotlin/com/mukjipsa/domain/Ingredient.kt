@@ -19,23 +19,17 @@ class Ingredient(
     @Column(name = "name", nullable = false, length = 200)
     var name: String,
 
-    @Column(name = "category_id", nullable = false)
-    var categoryId: Int,
-
-    @Column(name = "sub_category_id", nullable = false)
-    var subCategoryId: Int,
-
     @Column(name = "created_at")
     var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at")
     var updatedAt: LocalDateTime = LocalDateTime.now(),
 
-    @OneToOne
-    @JoinColumn(name = "id")
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     val category: Category,
 
-    @OneToOne
-    @JoinColumn(name = "id")
+    @ManyToOne
+    @JoinColumn(name = "sub_category_id")
     val subCategory: SubCategory,
 )

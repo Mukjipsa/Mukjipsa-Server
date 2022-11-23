@@ -33,6 +33,6 @@ class Recipe (
     var updatedAt: LocalDateTime? = LocalDateTime.now(),
 
     @OneToMany
-    @JoinColumn(name = "ingredient_id")
+    @JoinColumn(name = "id")
     val ingredients: MutableList<Ingredient> = mutableListOf()
 )
