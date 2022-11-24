@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse
 
 class JwtExceptionFilter(private val objectMapper: ObjectMapper) : OncePerRequestFilter() {
     override fun doFilterInternal(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        filterChain: FilterChain
+            request: HttpServletRequest,
+            response: HttpServletResponse,
+            filterChain: FilterChain
     ) {
         response.characterEncoding = "utf-8"
         try {
@@ -35,16 +35,16 @@ class JwtExceptionFilter(private val objectMapper: ObjectMapper) : OncePerReques
         response.contentType = "application/json"
         response.status = HttpServletResponse.SC_UNAUTHORIZED
         val responseJson = mapOf(
-            "errors" to listOf(
-                mapOf(
-                    "message" to "${exception::class.simpleName}",
-                    "extensions" to mapOf(
-                        "statusCode" to HttpServletResponse.SC_UNAUTHORIZED,
-                        "errorCode" to exception.code,
-                        "clientMessage" to exception.message
-                    )
+                "errors" to listOf(
+                        mapOf(
+                                "message" to "${exception::class.simpleName}",
+                                "extensions" to mapOf(
+                                        "statusCode" to HttpServletResponse.SC_UNAUTHORIZED,
+                                        "errorCode" to exception.code,
+                                        "clientMessage" to exception.message
+                                )
+                        )
                 )
-            )
         )
         val responseJsonStr = objectMapper.writeValueAsString(responseJson)
         response.writer.write(responseJsonStr)

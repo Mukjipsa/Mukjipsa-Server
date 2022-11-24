@@ -21,32 +21,32 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ConditionalOnBean(JwtAuthenticationProvider::class)
 class SecurityConfig(
-    private val authenticationManagerBuilder: AuthenticationManagerBuilder,
-    private val objectMapper: ObjectMapper,
-    jwtAuthenticationProvider: JwtAuthenticationProvider,
-) : WebSecurityConfigurerAdapter(){
+        private val authenticationManagerBuilder: AuthenticationManagerBuilder,
+        private val objectMapper: ObjectMapper,
+        jwtAuthenticationProvider: JwtAuthenticationProvider,
+) : WebSecurityConfigurerAdapter() {
     init {
         this.authenticationManagerBuilder.authenticationProvider(jwtAuthenticationProvider)
     }
 
     override fun configure(http: HttpSecurity) {
         http
-            .authorizeRequests()
-            .antMatchers("/").permitAll()
-            .and()
-            .authorizeRequests()
-            .antMatchers("/api/**").permitAll()
-            .and()
-            .addFilterBefore(
-                JwtAuthenticationFilter(authenticationManagerBuilder.orBuild),
-                UsernamePasswordAuthenticationFilter::class.java
-            )
-            .addFilterBefore(
-                JwtExceptionFilter(objectMapper),
-                JwtAuthenticationFilter::class.java
-            )
-            /* CSRF */
-            .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/**").permitAll()
+                .and()
+                .addFilterBefore(
+                        JwtAuthenticationFilter(authenticationManagerBuilder.orBuild),
+                        UsernamePasswordAuthenticationFilter::class.java
+                )
+                .addFilterBefore(
+                        JwtExceptionFilter(objectMapper),
+                        JwtAuthenticationFilter::class.java
+                )
+                /* CSRF */
+                .csrf().disable()
     }
 
     @Bean

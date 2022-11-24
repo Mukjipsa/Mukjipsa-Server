@@ -5,6 +5,7 @@ import javax.transaction.Transactional
 
 interface AuthService {
     fun getUserId(): Int
+
     @Transactional
     fun loginWithToken(providerName: String, userToken: String): LoginResponse
 }

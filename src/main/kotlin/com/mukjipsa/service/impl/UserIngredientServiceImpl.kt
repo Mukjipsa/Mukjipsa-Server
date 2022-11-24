@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserIngredientServiceImpl(
-    private val userIngredientRepository: RecipeIngredientRepository
+        private val userIngredientRepository: RecipeIngredientRepository
 ) : UserIngredientService {
 }

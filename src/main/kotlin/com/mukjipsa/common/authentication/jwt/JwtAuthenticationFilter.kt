@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse
 
 @Component
 class JwtAuthenticationFilter(
-    @Autowired
-    private val authenticationManager: AuthenticationManager
+        @Autowired
+        private val authenticationManager: AuthenticationManager
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {

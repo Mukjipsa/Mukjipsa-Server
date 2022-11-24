@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class IngredientFacade(
-    private val ingredientService: IngredientService,
-    private val essentialIngredientService: EssentialIngredientService,
-    private val userIngredientService: UserIngredientService,
-    private val userService: UserService,
+        private val ingredientService: IngredientService,
+        private val essentialIngredientService: EssentialIngredientService,
+        private val userIngredientService: UserIngredientService,
+        private val userService: UserService,
 ) {
 }

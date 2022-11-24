@@ -17,16 +17,15 @@ import com.mukjipsa.service.SearchService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
-import java.util.regex.Pattern
 import javax.transaction.Transactional
 
 
 @Service
 class SearchServiceImpl(
-    private val youtubeRowDataRepository: YoutubeRowDataRepository,
-    private val ingredientRepository: IngredientRepository,
-    private val recipeRepository: RecipeRepository,
-    private val recipeIngredientRepository: RecipeIngredientRepository,
+        private val youtubeRowDataRepository: YoutubeRowDataRepository,
+        private val ingredientRepository: IngredientRepository,
+        private val recipeRepository: RecipeRepository,
+        private val recipeIngredientRepository: RecipeIngredientRepository,
 ) : SearchService {
 
     @Value("\${youtube.secretKey}")
@@ -49,16 +48,16 @@ class SearchServiceImpl(
     @Transactional
     override fun getYoutube(nextToken: String?) {
         val youtube =
-            YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY) {}.setApplicationName("youtube-cmdline-search-sample").build()
+                YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY) {}.setApplicationName("youtube-cmdline-search-sample").build()
         val search = youtube.search().list("id,snippet")
         val searchResultList = search.setKey(youtubeSecretKey)
-            .setChannelId("UCC9pQY_uaBSa0WOpMNJHbEQ")
-            .setOrder("date")
-            .setPageToken(nextToken)
-            .setType("video")
-            .setFields("nextPageToken,pageInfo,items(id,snippet)")
-            .setMaxResults(50)
-            .execute()
+                .setChannelId("UCC9pQY_uaBSa0WOpMNJHbEQ")
+                .setOrder("date")
+                .setPageToken(nextToken)
+                .setType("video")
+                .setFields("nextPageToken,pageInfo,items(id,snippet)")
+                .setMaxResults(50)
+                .execute()
         val items = searchResultList.items
 
         items.map {
@@ -66,31 +65,31 @@ class SearchServiceImpl(
             val videoId = it.id.videoId
             val videos = youtube.videos().list("snippet")
             val videoData = videos.setKey(youtubeSecretKey)
-                .setId(videoId)
-                .setFields("items(id,snippet)")
-                .execute()
-                .items.first()
+                    .setId(videoId)
+                    .setFields("items(id,snippet)")
+                    .execute()
+                    .items.first()
             var tags = mutableListOf<YoutubeRawDataTag>()
 
 
             val youtubeRawData = YoutubeRawData(
-                channelId = "UCC9pQY_uaBSa0WOpMNJHbEQ",
-                videoId = videoId,
-                title = snippet.title,
-                thumbnails = videoData.snippet.thumbnails.default.url,
-                description = videoData.snippet.description,
-                publishedAt = Timestamp(snippet.publishedAt.value).toLocalDateTime(),
+                    channelId = "UCC9pQY_uaBSa0WOpMNJHbEQ",
+                    videoId = videoId,
+                    title = snippet.title,
+                    thumbnails = videoData.snippet.thumbnails.default.url,
+                    description = videoData.snippet.description,
+                    publishedAt = Timestamp(snippet.publishedAt.value).toLocalDateTime(),
             )
 
             val id = youtubeRowDataRepository.save(youtubeRawData).id
             if (videoData.snippet.tags != null) {
                 tags =
-                    videoData.snippet.tags.map {
-                        YoutubeRawDataTag(
-                            tag = it,
-                            youtubeRawDataId = id
-                        )
-                    }.toMutableList()
+                        videoData.snippet.tags.map {
+                            YoutubeRawDataTag(
+                                    tag = it,
+                                    youtubeRawDataId = id
+                            )
+                        }.toMutableList()
                 youtubeRawData.addTags(tags)
             }
         }
@@ -104,10 +103,10 @@ class SearchServiceImpl(
         val youtubeRawData = youtubeRowDataRepository.findAll()
         val recipeEntityList = youtubeRawData.map {
             Recipe(
-                title = it.title,
-                thumbnail = it.thumbnails,
-                link = "$YOUTUBE_VIDEO_PREFIX${it.videoId}",
-                content = it.description,
+                    title = it.title,
+                    thumbnail = it.thumbnails,
+                    link = "$YOUTUBE_VIDEO_PREFIX${it.videoId}",
+                    content = it.description,
             )
         }
         recipeRepository.saveAll(recipeEntityList)
@@ -116,8 +115,8 @@ class SearchServiceImpl(
                 val test = recipeRepository.findAllByContentLike("%${ingredient.name}%")
                 recipeIngredientRepository.saveAll(test.map { recipe ->
                     RecipeIngredient(
-                        recipeId = recipe.id,
-                        ingredientId = ingredient.id
+                            recipeId = recipe.id,
+                            ingredientId = ingredient.id
                     )
                 })
             }

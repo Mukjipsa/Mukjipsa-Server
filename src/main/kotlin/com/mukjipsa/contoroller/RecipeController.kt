@@ -19,6 +19,7 @@ class RecipeController(
         private val authService: AuthService,
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
+
     @GetMapping
     fun getAllRecipe(): RecipeListSimpleResponseDto {
         // TODO 레시피 리스트.
@@ -26,15 +27,15 @@ class RecipeController(
     }
 
     @GetMapping("/{recipeId}")
-    fun getRecipe(@PathVariable recipeId: String):RecipeResponseDto{
+    fun getRecipe(@PathVariable recipeId: String): RecipeResponseDto {
         // TODO 특정 레시피 조회.
         val userId = authService.getUserId()
         val recipeId = Integer.valueOf(recipeId)
-        return recipeFacade.getRecipe(userId,recipeId)
+        return recipeFacade.getRecipe(userId, recipeId)
     }
 
     @GetMapping("/my")
-    fun getRecipeForMyIngredient(): RecipeListResponseDto{
+    fun getRecipeForMyIngredient(): RecipeListResponseDto {
         // TODO 내가 가진 식재료로 만들 수 있는 레시피 리스트.
         val userId = authService.getUserId()
         return recipeFacade.getRecipeForMyIngredient(userId)

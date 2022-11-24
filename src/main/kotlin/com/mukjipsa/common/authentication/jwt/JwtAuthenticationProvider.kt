@@ -14,17 +14,17 @@ import java.security.Key
 
 @Component
 class JwtAuthenticationProvider(
-    @Value("\${jwt.secret}")
-    private val jwtAccessSecret: String?,
-    private val userService: UserService,
-    // alpha:(3600 * 24) 그 외: 3600
-    @Value("\${jwt.access-expires-in}")
-    private val accessExpiresIn: Long = 3600,
-    // 30일 3600 * 24 * 30 = 2592000
-    @Value("\${jwt.refresh-expires-in}")
-    private val refreshExpiresIn: Long = 2592000,
-    @Value("\${jwt.refresh-secret}")
-    private val refreshSecretKey: String? = null
+        @Value("\${jwt.secret}")
+        private val jwtAccessSecret: String?,
+        private val userService: UserService,
+        // alpha:(3600 * 24) 그 외: 3600
+        @Value("\${jwt.access-expires-in}")
+        private val accessExpiresIn: Long = 3600,
+        // 30일 3600 * 24 * 30 = 2592000
+        @Value("\${jwt.refresh-expires-in}")
+        private val refreshExpiresIn: Long = 2592000,
+        @Value("\${jwt.refresh-secret}")
+        private val refreshSecretKey: String? = null
 ) : AuthenticationProvider {
 
     override fun authenticate(authentication: Authentication?): Authentication? {
@@ -33,9 +33,9 @@ class JwtAuthenticationProvider(
             val claims = JwtUtil(jwtAccessSecret).decodeToken(jwtToken)
             val userInfo = userService.getAuthUserById(claims?.get("id").toString().toInt())
             return JwtAuthenticationToken(
-                principal = userInfo.email,
-                credentials = userInfo.password,
-                userDetails = userInfo,
+                    principal = userInfo.email,
+                    credentials = userInfo.password,
+                    userDetails = userInfo,
             )
         }
         return null
@@ -48,19 +48,20 @@ class JwtAuthenticationProvider(
     fun verifyAndDecodeRefreshToken(refreshToken: String): Int {
         val decode = JwtUtil(refreshSecretKey).decodeToken(refreshToken)
         val userId = decode?.get("id") as Int? ?: throw UserNotFoundException("user not found")
-        val userInfo = userService.getAuthUserById(userId) ?: throw UserNotFoundException("user not found")
+        val userInfo = userService.getAuthUserById(userId)
+                ?: throw UserNotFoundException("user not found")
         SecurityContextHolder.getContext().authentication =
-            JwtAuthenticationToken(
-                principal = userInfo.email,
-                credentials = userInfo.password,
-                userDetails = userInfo
-            )
+                JwtAuthenticationToken(
+                        principal = userInfo.email,
+                        credentials = userInfo.password,
+                        userDetails = userInfo
+                )
         return userId
     }
 
     fun getClaimAndKey(
-        userPk: Int,
-        tokenSecretKey: String?
+            userPk: Int,
+            tokenSecretKey: String?
     ): Pair<Claims, Key?> {
         val claims = Jwts.claims()
         claims["id"] = userPk

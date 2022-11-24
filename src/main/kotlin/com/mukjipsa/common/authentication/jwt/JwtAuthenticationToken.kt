@@ -18,7 +18,7 @@ class JwtAuthenticationToken : AbstractAuthenticationToken {
 
     // authorities는 개발 필요에 따라 추가.
     constructor(principal: String?, credentials: String?, userDetails: CustomUserDetails?) : super(
-        null
+            null
     ) {
         this.principal = principal
         this.credentials = credentials
