@@ -19,6 +19,9 @@ class UserFacade(
         }
         val ingredientsList = ingredientService.getAllIngredient()
         return UserIngredientResponseDto(
+            success = true,
+            status = HttpStatus.OK.value(),
+            message = "내가 가진 식재료 조회 성공",
             data = ingredientsList.map {
                 IngredientDto(
                     id = it.id,
@@ -26,10 +29,7 @@ class UserFacade(
                     name = it.name,
                     isHave = haveIngredientId.contains(it.id)
                 )
-            },
-            message = "내가 가진 식재료 조회 성공",
-            status = HttpStatus.OK.value(),
-            success = true
+            }
         )
     }
 }

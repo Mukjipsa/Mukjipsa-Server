@@ -1,6 +1,8 @@
 package com.mukjipsa.contoroller
 
 import com.mukjipsa.facade.IngredientFacade
+import com.mukjipsa.facade.dto.IngredientResponseDto
+import com.mukjipsa.service.AuthService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/ingredient")
 class IngredientController(
     private val ingredientFacade: IngredientFacade,
+    private val authService: AuthService,
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
@@ -19,9 +22,10 @@ class IngredientController(
     }
 
     @GetMapping
-    fun getIngredientList(){
+    fun getIngredientList() : IngredientResponseDto {
         // TODO 식재료 리스트 전달.
-        log.info("ingredient list")
+        val userId = authService.getUserId()
+        return ingredientFacade.getUserIngredient(userId)
     }
 
     @PostMapping
