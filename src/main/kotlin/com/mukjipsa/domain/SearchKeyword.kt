@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table( name="search_keyword")
+@Table(name = "search_keyword")
 class SearchKeyword(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,22 +1,21 @@
 package com.mukjipsa.contoroller;
 
 
-import com.mukjipsa.facade.RecipeFacade;
 import com.mukjipsa.facade.SearchFacade
 import com.mukjipsa.facade.dto.SearchKeywordResponseDto
-import com.mukjipsa.service.AuthService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.mukjipsa.service.AuthService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 
 
 @RestController
 @RequestMapping("/search")
 public class SearchController(
-        private val searchFacade:SearchFacade,
-        private val authService:AuthService
+        private val searchFacade: SearchFacade,
+        private val authService: AuthService
 ) {
-    private val log:Logger =LoggerFactory.getLogger(javaClass)
+    private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping("")
     fun getAllKeywords(): SearchKeywordResponseDto {
@@ -26,12 +25,11 @@ public class SearchController(
     }
 
     @DeleteMapping("/{keywordId}")
-    fun deleteKeyword(@PathVariable keywordId: String){
+    fun deleteKeyword(@PathVariable keywordId: String) {
         //TODO 특정 검색어 삭제
         val keywordId = Integer.valueOf(keywordId)
         searchFacade.deleteKeyword(keywordId)
     }
-
 
 
 }

@@ -119,15 +119,15 @@ class SearchServiceImpl(
         }
     }
 
-    override fun getMyKeywords(userId:Int):List<SearchKeyword>{
+    override fun getMyKeywords(userId: Int): List<SearchKeyword> {
         return searchRepository.findAllByUserId(userId)
     }
 
-    override fun deleteKeyword(keywordId: Int){
+    override fun deleteKeyword(keywordId: Int) {
         searchRepository.deleteById(keywordId)
     }
 
-    override fun getKeyword(keywordId: Int ): Optional<SearchKeyword> {
+    override fun getKeyword(keywordId: Int): Optional<SearchKeyword> {
         return searchRepository.findById(keywordId)
     }
 }
