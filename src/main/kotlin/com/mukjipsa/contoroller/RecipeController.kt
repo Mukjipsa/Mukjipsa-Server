@@ -34,10 +34,10 @@ class RecipeController(
     }
 
     @GetMapping("/my")
-    fun getRecipeForMyIngredient(){
+    fun getRecipeForMyIngredient(): RecipeListResponseDto{
         // TODO 내가 가진 식재료로 만들 수 있는 레시피 리스트.
         val userId = authService.getUserId()
-        return recipeFacade.getMyRecipe(userId)
+        return recipeFacade.getRecipeForMyIngredient(userId)
     }
 }
 
