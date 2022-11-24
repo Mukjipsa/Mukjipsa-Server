@@ -14,6 +14,10 @@ class SearchKeyword(
         @Column(name = "keyword", nullable = false, length = 200)
         var keyword: String,
 
+        @Column(name = "user_id", nullable = false)
+        var userId: Int,
+
+
         @Column(name = "created_at")
         var createdAt: LocalDateTime = LocalDateTime.now(),
 
