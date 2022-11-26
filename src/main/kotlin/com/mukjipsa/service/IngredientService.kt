@@ -7,5 +7,5 @@ interface IngredientService {
 
     fun getAllIngredient(): List<Ingredient>
 
-    fun getIngredientByIdIn(ingredientIds: List<Int?>): List<IngredientDto>
+    fun getIngredientByIdIn(ingredientIds: List<Int>): List<Ingredient>
 }
