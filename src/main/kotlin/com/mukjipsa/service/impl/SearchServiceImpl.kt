@@ -5,18 +5,13 @@ import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.JsonFactory
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.youtube.YouTube
-import com.mukjipsa.domain.Recipe
-import com.mukjipsa.domain.RecipeIngredient
-import com.mukjipsa.domain.YoutubeRawData
-import com.mukjipsa.domain.YoutubeRawDataTag
-import com.mukjipsa.infrastructure.IngredientRepository
-import com.mukjipsa.infrastructure.RecipeIngredientRepository
-import com.mukjipsa.infrastructure.RecipeRepository
-import com.mukjipsa.infrastructure.YoutubeRowDataRepository
+import com.mukjipsa.domain.*
+import com.mukjipsa.infrastructure.*
 import com.mukjipsa.service.SearchService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
+import java.util.*
 import javax.transaction.Transactional
 
 
@@ -26,6 +21,7 @@ class SearchServiceImpl(
         private val ingredientRepository: IngredientRepository,
         private val recipeRepository: RecipeRepository,
         private val recipeIngredientRepository: RecipeIngredientRepository,
+        private val searchRepository: SearchRepository
 ) : SearchService {
 
     @Value("\${youtube.secretKey}")
@@ -121,5 +117,17 @@ class SearchServiceImpl(
                 })
             }
         }
+    }
+
+    override fun getMyKeywords(userId: Int): List<SearchKeyword> {
+        return searchRepository.findAllByUserId(userId)
+    }
+
+    override fun deleteKeyword(keywordId: Int) {
+        searchRepository.deleteById(keywordId)
+    }
+
+    override fun getKeyword(keywordId: Int): Optional<SearchKeyword> {
+        return searchRepository.findById(keywordId)
     }
 }
