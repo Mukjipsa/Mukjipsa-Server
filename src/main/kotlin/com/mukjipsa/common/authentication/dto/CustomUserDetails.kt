@@ -4,11 +4,11 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class CustomUserDetails(
-    val id: Int,
-    val email: String,
-    val provider: String,
-    val ssoId: String,
-): UserDetails {
+        val id: Int,
+        val email: String,
+        val provider: String,
+        val ssoId: String,
+) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority>? {
         return null
     }

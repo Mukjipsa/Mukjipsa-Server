@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/bookmark")
 class BookmarkController(
-    private val bookmarkFacade: BookmarkFacade,
-    private val authService: AuthService,
+        private val bookmarkFacade: BookmarkFacade,
+        private val authService: AuthService,
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 

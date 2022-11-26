@@ -8,24 +8,24 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/ingredient")
 class IngredientController(
-    private val ingredientFacade: IngredientFacade,
+        private val ingredientFacade: IngredientFacade,
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping("/essential")
-    fun getEssentialIngredientList(){
+    fun getEssentialIngredientList() {
         // TODO 필수 식재료 리스트.
         log.info("essential ingredient list")
     }
 
     @GetMapping
-    fun getIngredientList(){
+    fun getIngredientList() {
         // TODO 식재료 리스트 전달.
         log.info("ingredient list")
     }
 
     @PostMapping
-    fun addIngredient(ingredientIds: List<Int>){
+    fun addIngredient(ingredientIds: List<Int>) {
         // TODO 유저에게 식재료 추가
         log.info("add ingredient to user")
     }

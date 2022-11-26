@@ -54,9 +54,9 @@ class ResponseError {
 
     /* 에러 내역을 항상 List 형으로 반환함 */
     class FieldError(
-        private var field: String,
-        private var value: String,
-        private var reason: String?
+            private var field: String,
+            private var value: String,
+            private var reason: String?
     ) {
         companion object {
             fun of(field: String, value: String, reason: String?): List<FieldError> {
@@ -68,14 +68,14 @@ class ResponseError {
             fun of(bindingResult: BindingResult): List<FieldError> {
                 val fieldErrors = bindingResult.fieldErrors
                 return fieldErrors.stream()
-                    .map { error: org.springframework.validation.FieldError ->
-                        FieldError(
-                            error.field,
-                            if (error.rejectedValue == null) "" else error.rejectedValue.toString(),
-                            error.defaultMessage
-                        )
-                    }
-                    .collect(Collectors.toList())
+                        .map { error: org.springframework.validation.FieldError ->
+                            FieldError(
+                                    error.field,
+                                    if (error.rejectedValue == null) "" else error.rejectedValue.toString(),
+                                    error.defaultMessage
+                            )
+                        }
+                        .collect(Collectors.toList())
             }
         }
     }

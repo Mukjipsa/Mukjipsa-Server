@@ -1,8 +1,8 @@
 package com.mukjipsa.common.authentication.exception
 
 enum class JWTExceptionCode(
-    val code: String,
-    val message: String,
+        val code: String,
+        val message: String,
 ) {
     MALFORMED_TOKEN("MALFORMED_TOKEN", "유효하지 않은 토큰 형식입니다."),
     EXPIRED_TOKEN("EXPIRED_TOKEN", "만료된 토큰입니다."),

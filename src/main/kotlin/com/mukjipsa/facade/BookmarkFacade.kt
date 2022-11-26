@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class BookmarkFacade(
-    private val bookmarkService: BookmarkService,
-    private val recipeService: RecipeService,
+        private val bookmarkService: BookmarkService,
+        private val recipeService: RecipeService,
 ) {
     fun toggleBookmark(userId: Int, recipeId: Int) {
         val bookmark = bookmarkService.getBookmark(userId, recipeId)
@@ -24,10 +24,10 @@ class BookmarkFacade(
         val recipeIds = bookmarkService.getBookmarkByUserId(userId).map { it.recipeId }
         val recipeList = recipeService.getRecipeByIdIn(recipeIds)
         return BookmarkResponseDto(
-            data = recipeList,
-            message = "북마크한 레시피 조회 성공",
-            status = HttpStatus.OK.value(),
-            success = true
+                data = recipeList,
+                message = "북마크한 레시피 조회 성공",
+                status = HttpStatus.OK.value(),
+                success = true
         )
     }
 }

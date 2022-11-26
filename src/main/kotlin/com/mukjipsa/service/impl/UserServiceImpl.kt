@@ -9,15 +9,15 @@ import java.util.*
 
 @Service
 class UserServiceImpl(
-    private val userRepository: UserRepository
+        private val userRepository: UserRepository
 ) : UserService {
     override fun getAuthUserById(id: Int): CustomUserDetails {
         val user = userRepository.findById(id).get()
         return CustomUserDetails(
-            id = user.id,
-            email = user.email,
-            provider = user.provider,
-            ssoId = user.ssoId,
+                id = user.id,
+                email = user.email,
+                provider = user.provider,
+                ssoId = user.ssoId,
         )
     }
 

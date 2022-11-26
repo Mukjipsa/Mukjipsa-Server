@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class IngredientServiceImpl(
-    private val ingredientRepository: IngredientRepository
+        private val ingredientRepository: IngredientRepository
 ) : IngredientService {
     override fun getAllIngredient(): List<Ingredient> {
         return ingredientRepository.findAll()
+    }
+
+    override fun getIngredientByIdIn(ingredientIds: List<Int>): List<Ingredient> {
+        return ingredientRepository.findByIdIn(ingredientIds)
     }
 }
