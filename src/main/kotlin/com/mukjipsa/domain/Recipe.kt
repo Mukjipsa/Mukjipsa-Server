@@ -33,6 +33,9 @@ class Recipe(
         var updatedAt: LocalDateTime? = LocalDateTime.now(),
 
         @OneToMany
-        @JoinColumn(name = "id")
-        val ingredients: MutableList<Ingredient> = mutableListOf()
+        @JoinTable(name = "recipe_ingredient", //조인테이블명
+                joinColumns = [JoinColumn(name = "recipe_id")],  //외래키
+                inverseJoinColumns = [JoinColumn(name = "ingredient_id")]//반대 엔티티의 외래키
+        )
+        val ingredients: List<Ingredient> = listOf()
 )

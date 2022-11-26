@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service
 @Service
 class RecipeFacade(
         private val recipeService: RecipeService,
-        private val userIngredientService: UserIngredientService,
-        private val recipeIngredientService: RecipeIngredientService,
-        private val ingredientService: IngredientService,
         private val userService: UserService,
 ) {
     // 레시피 전체 조회
@@ -19,10 +16,6 @@ class RecipeFacade(
         val recipeList = recipeService.getAllRecipe()
         val recipeListDto = mutableListOf<RecipeSimpleDto>()
         recipeList.map {
-            val ingredientIds = recipeIngredientService.getIngredientByRecipeId(it.id).map {
-                it.ingredientId
-            }
-            val ingredientList = ingredientService.getIngredientByIdIn(ingredientIds)
             val recipeSimpleDto: RecipeSimpleDto = RecipeSimpleDto(
                     id = it.id,
                     content = it.content,
@@ -31,7 +24,7 @@ class RecipeFacade(
                     title = it.title,
                     createdAt = it.createdAt,
                     updatedAt = it.updatedAt,
-                    ingredients = ingredientList.map {
+                    ingredients = it.ingredients.map {
                         IngredientSimpleDto(
                                 categoryType = it.category.name,
                                 id = it.id,
@@ -58,13 +51,6 @@ class RecipeFacade(
             it.id
         }
 
-        //recipe Id를 가진 ingredient 불러오기
-        val ingredientIds = recipeIngredientService.getIngredientByRecipeId(recipeId).map {
-            it.ingredientId
-        }
-
-        val ingredientList = ingredientService.getIngredientByIdIn(ingredientIds)
-
         val recipe = recipeService.getRecipe(recipeId).get()
 
         val recipeDto: RecipeDto = RecipeDto(
@@ -75,7 +61,7 @@ class RecipeFacade(
                 title = recipe.title,
                 createdAt = recipe.createdAt,
                 updatedAt = recipe.updatedAt,
-                ingredients = ingredientList.map {
+                ingredients = recipe.ingredients.map {
                     IngredientDto(
                             categoryType = it.category.name,
                             id = it.id,
@@ -110,9 +96,7 @@ class RecipeFacade(
             var flag = false;
 
             // 해당 레시피의 모든 ingredient Id
-            val ingredientIds = recipeIngredientService.getIngredientByRecipeId(it.id).map {
-                it.ingredientId
-            }
+            val ingredientIds = it.ingredients.map { it.id }
 
             ingredientIds.map {
                 if (!haveIngredientId.contains(it)) { // 재료 중 하나라도 없다면
@@ -120,9 +104,6 @@ class RecipeFacade(
                 }
             }
             if (!flag) {
-                // 해당 레시피의 모든 재료
-                val ingredientList = ingredientService.getIngredientByIdIn(ingredientIds)
-
                 val recipeDto: RecipeDto = RecipeDto(
                         id = it.id,
                         content = it.content,
@@ -131,7 +112,7 @@ class RecipeFacade(
                         title = it.title,
                         createdAt = it.createdAt,
                         updatedAt = it.updatedAt,
-                        ingredients = ingredientList.map {
+                        ingredients = it.ingredients.map {
                             IngredientDto(
                                     categoryType = it.category.name,
                                     id = it.id,
@@ -153,6 +134,4 @@ class RecipeFacade(
         )
 
     }
-
-
 }
