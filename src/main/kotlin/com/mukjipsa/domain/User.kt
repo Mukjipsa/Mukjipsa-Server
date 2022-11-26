@@ -35,5 +35,5 @@ class User(
                 joinColumns = [JoinColumn(name = "user_id")],  //외래키
                 inverseJoinColumns = [JoinColumn(name="ingredient_id")] //반대 엔티티의 외래키
         )
-        val ingredient: MutableList<Ingredient> = mutableListOf()
+        var ingredient: MutableList<Ingredient> = mutableListOf()
 )

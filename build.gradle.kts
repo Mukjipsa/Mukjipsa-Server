@@ -28,6 +28,8 @@ dependencies {
 
     //jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.4.2")
 
     // security
     implementation("org.springframework.boot:spring-boot-starter-security")

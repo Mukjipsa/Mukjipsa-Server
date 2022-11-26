@@ -1,7 +1,10 @@
 package com.mukjipsa.contoroller
 
+import com.mukjipsa.contoroller.dto.IngredientRequestDto
 import com.mukjipsa.facade.IngredientFacade
+import com.mukjipsa.facade.dto.IngredientAddResponseDto
 import com.mukjipsa.facade.dto.IngredientResponseDto
+import com.mukjipsa.facade.dto.IngredientUpdateResponseDto
 import com.mukjipsa.service.AuthService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,14 +32,14 @@ class IngredientController(
     }
 
     @PostMapping
-    fun addIngredient(ingredientIds: List<Int>) {
-        // TODO 유저에게 식재료 추가
-        log.info("add ingredient to user")
+    fun addIngredient(@RequestBody ingredientRequestDto: IngredientRequestDto): IngredientAddResponseDto {
+        val userId = authService.getUserId()
+        return ingredientFacade.addIngredient(userId, ingredientRequestDto.ingredients)
     }
 
     @PutMapping
-    fun updateIngredient(ingredientIds: List<Int>) {
-        // TODO 유저가 가진 식재료 업데이트
-        log.info("update ingredient to user")
+    fun updateIngredient(@RequestBody ingredientRequestDto: IngredientRequestDto): IngredientUpdateResponseDto {
+        val userId = authService.getUserId()
+        return ingredientFacade.updateIngredient(userId, ingredientRequestDto.ingredients)
     }
 }
