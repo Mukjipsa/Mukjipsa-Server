@@ -16,8 +16,8 @@ import javax.transaction.Transactional
 
 @Service
 class AuthServiceImpl(
-    private val jwtAuthenticationProvider: JwtAuthenticationProvider,
-    private val userRepository: UserRepository,
+        private val jwtAuthenticationProvider: JwtAuthenticationProvider,
+        private val userRepository: UserRepository,
 ) : AuthService {
     override fun getUserId(): Int {
 //        return (SecurityContextHolder.getContext().authentication as JwtAuthenticationToken).getUserDetails()?.id
@@ -37,12 +37,12 @@ class AuthServiceImpl(
     private fun getUserAttributesByToken(userToken: String): KakaoProfile? {
         val wc = WebClient.create("https://kapi.kakao.com/v2/user/me")
         val response: String? = wc.post()
-            .uri("https://kapi.kakao.com/v2/user/me")
-            .header("Authorization", "Bearer $userToken")
-            .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
-            .retrieve()
-            .bodyToMono(String::class.java)
-            .block()
+                .uri("https://kapi.kakao.com/v2/user/me")
+                .header("Authorization", "Bearer $userToken")
+                .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
+                .retrieve()
+                .bodyToMono(String::class.java)
+                .block()
         val objectMapper = ObjectMapper()
         var kakaoProfile: KakaoProfile? = null
 
@@ -56,14 +56,14 @@ class AuthServiceImpl(
 
     private fun getUserProfileByToken(providerName: String, userToken: String): User {
         val userAttributesByToken =
-            getUserAttributesByToken(userToken)
+                getUserAttributesByToken(userToken)
         val kakaoId = userAttributesByToken?.id ?: throw UserNotFoundException("error sso")
         val user = userRepository.findBySsoId(kakaoId)
         return if (user == null) {
             val newUser = User(
-                email = "sso",
-                provider = providerName,
-                ssoId = kakaoId,
+                    email = "sso",
+                    provider = providerName,
+                    ssoId = kakaoId,
             )
             userRepository.save(newUser)
         } else {

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class EssentialIngredientServiceImpl(
-    private val essentialIngredientRepository: EssentialIngredientRepository
-) : EssentialIngredientService{
+        private val essentialIngredientRepository: EssentialIngredientRepository
+) : EssentialIngredientService {
 
 }

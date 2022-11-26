@@ -1,9 +1,9 @@
 package com.mukjipsa.common.exception.response
 
 enum class CodeError(
-    val status: Int, /* 계속 추가 가능 */
-    val code: String,
-    val message: String
+        val status: Int, /* 계속 추가 가능 */
+        val code: String,
+        val message: String
 ) {
     // Common
     INVALID_INPUT_VALUE(400, "C001", " 입력 값이 잘못되었습니다."),

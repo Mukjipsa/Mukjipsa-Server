@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class BookmarkServiceImpl(
-    private val bookmarkRepository: BookmarkRepository,
-): BookmarkService {
+        private val bookmarkRepository: BookmarkRepository,
+) : BookmarkService {
     override fun getBookmark(userId: Int, recipeId: Int): Bookmark? {
         return bookmarkRepository.findByUserIdAndRecipeId(userId, recipeId)
     }

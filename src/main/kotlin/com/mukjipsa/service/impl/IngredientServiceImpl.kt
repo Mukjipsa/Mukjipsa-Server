@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class IngredientServiceImpl(
-    private val ingredientRepository: IngredientRepository
+        private val ingredientRepository: IngredientRepository
 ) : IngredientService {
 
     override fun getAllIngredient(): List<Ingredient> {

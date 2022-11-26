@@ -16,7 +16,7 @@ class IngredientController(
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping("/essential")
-    fun getEssentialIngredientList(){
+    fun getEssentialIngredientList() {
         // TODO 필수 식재료 리스트.
         log.info("essential ingredient list")
     }
@@ -29,7 +29,7 @@ class IngredientController(
     }
 
     @PostMapping
-    fun addIngredient(ingredientIds: List<Int>){
+    fun addIngredient(ingredientIds: List<Int>) {
         // TODO 유저에게 식재료 추가
         log.info("add ingredient to user")
     }

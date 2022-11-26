@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserIngredientServiceImpl(
-    private val userIngredientRepository: UserIngredientRepository
+        private val userIngredientRepository: RecipeIngredientRepository
 ) : UserIngredientService {
 
     override fun getIngredientByUserId(userId: Int): List<UserIngredient>{
