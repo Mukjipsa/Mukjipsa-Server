@@ -1,5 +1,6 @@
 package com.mukjipsa.contoroller
 
+import com.mukjipsa.contoroller.dto.EssentialIngredientResponseDto
 import com.mukjipsa.contoroller.dto.IngredientRequestDto
 import com.mukjipsa.facade.IngredientFacade
 import com.mukjipsa.facade.dto.IngredientAddResponseDto
@@ -19,9 +20,8 @@ class IngredientController(
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping("/essential")
-    fun getEssentialIngredientList() {
-        // TODO 필수 식재료 리스트.
-        log.info("essential ingredient list")
+    fun getEssentialIngredientList(): EssentialIngredientResponseDto {
+        return ingredientFacade.getEssentialIngredient()
     }
 
     @GetMapping

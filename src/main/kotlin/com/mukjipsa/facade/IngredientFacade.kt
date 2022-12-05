@@ -1,5 +1,7 @@
 package com.mukjipsa.facade
 
+import com.mukjipsa.contoroller.dto.EssentialIngredientResponseDto
+import com.mukjipsa.contoroller.dto.SimpleIngredientDto
 import com.mukjipsa.facade.dto.IngredientAddResponseDto
 import com.mukjipsa.facade.dto.IngredientDto
 import com.mukjipsa.facade.dto.IngredientResponseDto
@@ -58,6 +60,22 @@ class IngredientFacade(
                 message = "식재료 업데이트 성공",
                 status = HttpStatus.OK.value(),
                 success = true
+        )
+    }
+
+    fun getEssentialIngredient(): EssentialIngredientResponseDto {
+        val essentialIngredientIds: List<Int> = essentialIngredientService.getAllIds()
+        val ingredients = ingredientService.getIngredientByIdIn(essentialIngredientIds)
+        return EssentialIngredientResponseDto(
+                status = 200,
+                success = true,
+                message = "필수 식재료 조회 성공",
+                data = ingredients.map {
+                    SimpleIngredientDto(
+                            id = it.id,
+                            name = it.name
+                    )
+                }
         )
     }
 }
