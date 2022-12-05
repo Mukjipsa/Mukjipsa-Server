@@ -47,7 +47,7 @@ class RecipeFacade(
 
     // 레시피 상세 조회
     fun getRecipe(userId: Int, recipeId: Int): RecipeResponseDto {
-        val haveIngredientId = userService.getUserById(userId).get().ingredient.map {
+        val haveIngredientId = userService.getUserById(userId).ingredient.map {
             it.id
         }
 
@@ -84,7 +84,7 @@ class RecipeFacade(
     fun getRecipeForMyIngredient(userId: Int): RecipeListResponseDto {
 
         // 내가 가진 ingredient id들
-        val haveIngredientId = userService.getUserById(userId).get().ingredient.map {
+        val haveIngredientId = userService.getUserById(userId).ingredient.map {
             it.id
         }
 

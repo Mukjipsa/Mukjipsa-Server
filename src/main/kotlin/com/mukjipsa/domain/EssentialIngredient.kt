@@ -13,10 +13,10 @@ class EssentialIngredient(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false)
-        var id: Int? = null,
+        var id: Int = 0,
 
         @Column(name = "ingredient_id", nullable = false)
-        var ingredientId: Int? = null,
+        var ingredientId: Int,
 
         @Column(name = "created_at")
         var createdAt: Instant? = null,

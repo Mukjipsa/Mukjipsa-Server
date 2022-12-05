@@ -13,7 +13,7 @@ class UserFacade(
         private val ingredientService: IngredientService,
 ) {
     fun getUserIngredients(userId: Int): UserIngredientResponseDto {
-        val haveIngredientId = userService.getUserById(userId).get().ingredient.map {
+        val haveIngredientId = userService.getUserById(userId).ingredient.map {
             it.id
         }
         val ingredientsList = ingredientService.getAllIngredient()

@@ -5,7 +5,6 @@ import com.mukjipsa.domain.User
 import com.mukjipsa.infrastructure.UserRepository
 import com.mukjipsa.service.UserService
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class UserServiceImpl(
@@ -21,7 +20,7 @@ class UserServiceImpl(
         )
     }
 
-    override fun getUserById(userId: Int): Optional<User> {
-        return userRepository.findById(userId)
+    override fun getUserById(userId: Int): User {
+        return userRepository.findById(userId).get()
     }
 }

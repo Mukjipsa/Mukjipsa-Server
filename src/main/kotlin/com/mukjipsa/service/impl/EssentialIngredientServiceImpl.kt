@@ -8,5 +8,8 @@ import org.springframework.stereotype.Service
 class EssentialIngredientServiceImpl(
         private val essentialIngredientRepository: EssentialIngredientRepository
 ) : EssentialIngredientService {
+    override fun getAllIds(): List<Int> {
+        return essentialIngredientRepository.findAll().map { it.ingredientId }
+    }
 
 }
