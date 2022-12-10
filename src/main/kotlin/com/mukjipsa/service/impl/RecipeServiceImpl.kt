@@ -43,5 +43,9 @@ class RecipeServiceImpl(
         return recipeRepository.findById(recipeId)
     }
 
+    override fun getRecipeByKeyword(keyword: String): List<Recipe> {
+        return recipeRepository.findAllByContentLike(keyword)
+    }
+
 
 }

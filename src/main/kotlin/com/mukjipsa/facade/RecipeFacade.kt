@@ -2,7 +2,9 @@ package com.mukjipsa.facade
 
 import RecipeResponseDto
 import com.mukjipsa.facade.dto.*
-import com.mukjipsa.service.*
+import com.mukjipsa.service.IngredientService
+import com.mukjipsa.service.RecipeService
+import com.mukjipsa.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service
 class RecipeFacade(
         private val recipeService: RecipeService,
         private val userService: UserService,
+        private val ingredientService: IngredientService,
 ) {
     // 레시피 전체 조회
     fun getAllRecipe(): RecipeListSimpleResponseDto {
@@ -133,5 +136,32 @@ class RecipeFacade(
                 success = true
         )
 
+    }
+
+    fun getSearchRecipe(keyword: String): RecipeListResponseDto {
+        val data = recipeService.getRecipeByKeyword(keyword).map {
+            RecipeDto(
+                    id = it.id,
+                    content = it.content,
+                    link = it.link,
+                    thumbnail = it.thumbnail,
+                    title = it.title,
+                    createdAt = it.createdAt,
+                    updatedAt = it.updatedAt,
+                    ingredients = it.ingredients.map {
+                        IngredientDto(
+                                categoryType = it.category.name,
+                                id = it.id,
+                                name = it.name,
+                        )
+                    }
+            )
+        }
+        return RecipeListResponseDto(
+                message = "레시피 조회 성공",
+                status = HttpStatus.OK.value(),
+                success = true,
+                data = data,
+        )
     }
 }
