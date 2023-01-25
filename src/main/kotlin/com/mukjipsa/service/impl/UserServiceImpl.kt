@@ -23,4 +23,9 @@ class UserServiceImpl(
     override fun getUserById(userId: Int): User {
         return userRepository.findById(userId).get()
     }
+
+    override fun updateIngredientRound(user: User) {
+        user.ingredientsRound += 1
+        userRepository.save(user)
+    }
 }

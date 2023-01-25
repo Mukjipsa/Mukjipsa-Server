@@ -12,26 +12,8 @@ import java.util.*
 class RecipeServiceImpl(
         private val recipeRepository: RecipeRepository
 ) : RecipeService {
-    override fun getRecipeByIdIn(recipeIds: List<Int>): List<RecipeDto> {
-        return recipeRepository.findByIdIn(recipeIds).map {
-            RecipeDto(
-                    content = it.content,
-                    createdAt = it.createdAt,
-                    id = it.id,
-                    link = it.link,
-                    thumbnail = it.thumbnail,
-                    title = it.title,
-                    updatedAt = it.updatedAt,
-                    ingredients = it.ingredients.map {
-                        IngredientDto(
-                                categoryType = it.category.name,
-                                id = it.id,
-                                name = it.name,
-                                isHave = null
-                        )
-                    }
-            )
-        }
+    override fun getRecipeByIdIn(recipeIds: List<Int>): List<Recipe> {
+        return recipeRepository.findByIdIn(recipeIds)
     }
 
     override fun getAllRecipe(): List<Recipe> {
