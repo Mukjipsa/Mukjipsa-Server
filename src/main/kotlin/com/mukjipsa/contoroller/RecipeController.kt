@@ -1,17 +1,20 @@
 package com.mukjipsa.contoroller
 
 import RecipeResponseDto
+import com.mukjipsa.common.exception.BusinessException
+import com.mukjipsa.common.exception.EntityNotFoundException
+import com.mukjipsa.common.exception.response.ErrorCode
+import com.mukjipsa.common.exception.response.ResponseError
 import com.mukjipsa.facade.RecipeFacade
 import com.mukjipsa.facade.dto.RecipeListResponseDto
 import com.mukjipsa.facade.dto.RecipeListSimpleResponseDto
 import com.mukjipsa.service.AuthService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import java.util.NoSuchElementException
 
 @RestController
 @RequestMapping("/recipe")
@@ -28,10 +31,9 @@ class RecipeController(
     }
 
     @GetMapping("/{recipeId}")
-    fun getRecipe(@PathVariable recipeId: String): RecipeResponseDto {
+    fun getRecipe(@PathVariable recipeId: Int): RecipeResponseDto {
         // TODO 특정 레시피 조회.
         val userId = authService.getUserId()
-        val recipeId = Integer.valueOf(recipeId)
         return recipeFacade.getRecipe(userId, recipeId)
     }
 
