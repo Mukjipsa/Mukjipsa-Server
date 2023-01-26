@@ -5,58 +5,55 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.time.LocalDateTime
 import java.util.stream.Collectors
 
-class ResponseError {
-    private var timestamp: String
-    private var message: String
-    private var status: Int
-    private var code: String
-    private var errors: List<FieldError>
+data class ResponseError(
+    var status: Int,
+    var code: String,
+    var message: String,
+    var errors: List<FieldError>,
+    var timestamp: String
+) {
 
-    constructor(code: CodeError, errors: List<FieldError>) {
+    constructor(code: ErrorCode, errors: List<FieldError>) : this(
+        message = code.message,
+        status = code.status,
+        code = code.code,
+        errors = errors,
         timestamp = LocalDateTime.now().toString()
-        message = code.message
-        status = code.status
-        this.errors = errors
-        this.code = code.code
-    }
+    )
 
-    constructor(code: CodeError) {
+    constructor(code: ErrorCode) : this(
+        message = code.message,
+        status = code.status,
+        code = code.code,
+        errors = arrayListOf(),
         timestamp = LocalDateTime.now().toString()
-        message = code.message
-        status = code.status
-        this.code = code.code
-        errors = ArrayList()
-    }
+    )
 
     companion object {
-        fun of(code: CodeError, bindingResult: BindingResult): ResponseError {
+        fun of(code: ErrorCode, bindingResult: BindingResult): ResponseError {
             return ResponseError(code, FieldError.of(bindingResult))
         }
 
-        fun of(code: CodeError): ResponseError {
+        fun of(code: ErrorCode): ResponseError {
             return ResponseError(code)
         }
 
-        fun of(code: CodeError, errors: List<FieldError>): ResponseError {
+        fun of(code: ErrorCode, errors: List<FieldError>): ResponseError {
             return ResponseError(code, errors)
         }
 
         fun of(e: MethodArgumentTypeMismatchException): ResponseError? {
             val value = if (e.value == null) "" else e.value?.toString()
             val errors = value?.let { FieldError.of(e.name, it, e.errorCode) }
-            return errors?.let { ResponseError(CodeError.INVALID_TYPE_VALUE, it) }
-        }
-
-        fun filterLogMessageByExecEnv() {
-
+            return errors?.let { ResponseError(ErrorCode.INVALID_TYPE_VALUE, it) }
         }
     }
 
     /* 에러 내역을 항상 List 형으로 반환함 */
     class FieldError(
-            private var field: String,
-            private var value: String,
-            private var reason: String?
+        private var field: String,
+        private var value: String,
+        private var reason: String?
     ) {
         companion object {
             fun of(field: String, value: String, reason: String?): List<FieldError> {
@@ -68,14 +65,14 @@ class ResponseError {
             fun of(bindingResult: BindingResult): List<FieldError> {
                 val fieldErrors = bindingResult.fieldErrors
                 return fieldErrors.stream()
-                        .map { error: org.springframework.validation.FieldError ->
-                            FieldError(
-                                    error.field,
-                                    if (error.rejectedValue == null) "" else error.rejectedValue.toString(),
-                                    error.defaultMessage
-                            )
-                        }
-                        .collect(Collectors.toList())
+                    .map { error: org.springframework.validation.FieldError ->
+                        FieldError(
+                            error.field,
+                            if (error.rejectedValue == null) "" else error.rejectedValue.toString(),
+                            error.defaultMessage
+                        )
+                    }
+                    .collect(Collectors.toList())
             }
         }
     }
