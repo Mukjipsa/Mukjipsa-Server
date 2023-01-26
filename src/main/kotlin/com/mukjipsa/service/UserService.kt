@@ -6,4 +6,5 @@ import com.mukjipsa.domain.User
 interface UserService {
     fun getAuthUserById(id: Int): CustomUserDetails
     fun getUserById(userId: Int): User
+    fun updateIngredientRound(user: User)
 }

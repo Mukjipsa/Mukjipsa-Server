@@ -45,7 +45,7 @@ class RecipeController(
     @GetMapping("/search")
     fun getSearchRecipe(@RequestParam("keyword") keyword: String): RecipeListResponseDto{
         val userId = authService.getUserId()
-        return recipeFacade.getSearchRecipe(keyword)
+        return recipeFacade.getSearchRecipe(userId, keyword)
     }
 }
 

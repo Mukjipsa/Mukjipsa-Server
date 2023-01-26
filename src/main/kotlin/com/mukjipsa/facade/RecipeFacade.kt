@@ -2,6 +2,7 @@ package com.mukjipsa.facade
 
 import RecipeResponseDto
 import com.mukjipsa.facade.dto.*
+import com.mukjipsa.service.BookmarkService
 import com.mukjipsa.service.IngredientService
 import com.mukjipsa.service.RecipeService
 import com.mukjipsa.service.UserService
@@ -13,6 +14,7 @@ class RecipeFacade(
         private val recipeService: RecipeService,
         private val userService: UserService,
         private val ingredientService: IngredientService,
+        private val bookmarkService: BookmarkService,
 ) {
     // 레시피 전체 조회
     fun getAllRecipe(): RecipeListSimpleResponseDto {
@@ -55,6 +57,7 @@ class RecipeFacade(
         }
 
         val recipe = recipeService.getRecipe(recipeId).get()
+        val isBookmarked = bookmarkService.getBookmark(userId, recipeId)
 
         val recipeDto: RecipeDto = RecipeDto(
                 id = recipe.id,
@@ -66,12 +69,14 @@ class RecipeFacade(
                 updatedAt = recipe.updatedAt,
                 ingredients = recipe.ingredients.map {
                     IngredientDto(
-                            categoryType = it.category.name,
-                            id = it.id,
-                            name = it.name,
-                            isHave = haveIngredientId.contains(it.id)
+                        categoryType = it.category.name,
+                        id = it.id,
+                        isHave = haveIngredientId.contains(it.id),
+                        name = it.name,
+                        categoryId = it.category.id
                     )
-                }
+                },
+                isBookmarked = isBookmarked != null
         )
 
         return RecipeResponseDto(
@@ -94,7 +99,6 @@ class RecipeFacade(
         // 모든 recipe
         val recipeList = recipeService.getAllRecipe()
         val recipeListDto = mutableListOf<RecipeDto>()
-
         recipeList.map {
             var flag = false;
 
@@ -108,21 +112,23 @@ class RecipeFacade(
             }
             if (!flag) {
                 val recipeDto: RecipeDto = RecipeDto(
-                        id = it.id,
-                        content = it.content,
-                        link = it.link,
-                        thumbnail = it.thumbnail,
-                        title = it.title,
-                        createdAt = it.createdAt,
-                        updatedAt = it.updatedAt,
-                        ingredients = it.ingredients.map {
-                            IngredientDto(
-                                    categoryType = it.category.name,
-                                    id = it.id,
-                                    name = it.name,
-                                    isHave = haveIngredientId.contains(it.id)
-                            )
-                        }
+                    content = it.content,
+                    createdAt = it.createdAt,
+                    id = it.id,
+                    ingredients = it.ingredients.map {
+                        IngredientDto(
+                            categoryType = it.category.name,
+                            id = it.id,
+                            isHave = haveIngredientId.contains(it.id),
+                            name = it.name,
+                            categoryId = it.category.id
+                        )
+                    },
+                    link = it.link,
+                    thumbnail = it.thumbnail,
+                    title = it.title,
+                    updatedAt = it.updatedAt,
+                    isBookmarked = bookmarkService.getBookmark(userId, it.id) != null
                 )
                 recipeListDto.add(recipeDto)
             }
@@ -138,23 +144,25 @@ class RecipeFacade(
 
     }
 
-    fun getSearchRecipe(keyword: String): RecipeListResponseDto {
+    fun getSearchRecipe(userId: Int, keyword: String): RecipeListResponseDto {
         val data = recipeService.getRecipeByKeyword(keyword).map {
             RecipeDto(
-                    id = it.id,
-                    content = it.content,
-                    link = it.link,
-                    thumbnail = it.thumbnail,
-                    title = it.title,
-                    createdAt = it.createdAt,
-                    updatedAt = it.updatedAt,
-                    ingredients = it.ingredients.map {
-                        IngredientDto(
-                                categoryType = it.category.name,
-                                id = it.id,
-                                name = it.name,
-                        )
-                    }
+                content = it.content,
+                createdAt = it.createdAt,
+                id = it.id,
+                ingredients = it.ingredients.map {
+                    IngredientDto(
+                        categoryType = it.category.name,
+                        id = it.id,
+                        name = it.name,
+                        categoryId = it.category.id,
+                    )
+                },
+                link = it.link,
+                thumbnail = it.thumbnail,
+                title = it.title,
+                updatedAt = it.updatedAt,
+                isBookmarked = bookmarkService.getBookmark(userId, it.id) != null
             )
         }
         return RecipeListResponseDto(

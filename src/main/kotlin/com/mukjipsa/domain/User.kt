@@ -24,6 +24,9 @@ class User(
         @Column(name = "sso_id", nullable = false)
         var ssoId: String,
 
+        @Column(name="ingredients_round")
+        var ingredientsRound: Int = 0,
+
         @Column(name = "created_at")
         var createdAt: LocalDateTime = LocalDateTime.now(),
 

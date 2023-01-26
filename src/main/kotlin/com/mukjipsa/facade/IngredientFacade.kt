@@ -28,6 +28,7 @@ class IngredientFacade(
                 data = ingredientList.map {
                     IngredientDto(
                             categoryType = it.category.name,
+                            categoryId = it.category.id,
                             id = it.id,
                             isHave = true,
                             name = it.name
@@ -44,6 +45,7 @@ class IngredientFacade(
         val user = userService.getUserById(userId)
         val ingredients = ingredientService.getIngredientByIdIn(ingredientIds)
         user.ingredient.addAll(ingredients)
+        userService.updateIngredientRound(user)
         return IngredientAddResponseDto(
                 message = "식재료 추가 성공",
                 status = HttpStatus.OK.value(),
@@ -73,6 +75,7 @@ class IngredientFacade(
                 data = ingredients.map {
                     SimpleIngredientDto(
                             id = it.id,
+                            categoryId = it.category.id,
                             name = it.name
                     )
                 }

@@ -20,10 +20,11 @@ class UserFacade(
         return UserIngredientResponseDto(
                 data = ingredientsList.map {
                     IngredientDto(
-                            id = it.id,
-                            categoryType = it.category.name,
-                            name = it.name,
-                            isHave = haveIngredientId.contains(it.id)
+                        categoryType = it.category.name,
+                        id = it.id,
+                        isHave = haveIngredientId.contains(it.id),
+                        name = it.name,
+                        categoryId = it.category.id
                     )
                 },
                 message = "내가 가진 식재료 조회 성공",
