@@ -5,10 +5,7 @@ import com.mukjipsa.facade.dto.BookmarkResponseDto
 import com.mukjipsa.service.AuthService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/bookmark")
@@ -24,8 +21,8 @@ class BookmarkController(
         return bookmarkFacade.getBookmarkRecipe(userId)
     }
 
-    @PostMapping
-    fun toggleBookmark(recipeId: Int) {
+    @PostMapping("/{recipeId}")
+    fun toggleBookmark(@PathVariable recipeId: Int) {
         val userId = authService.getUserId()
         bookmarkFacade.toggleBookmark(userId, recipeId)
     }

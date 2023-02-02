@@ -7,7 +7,7 @@ import java.util.*
 interface RecipeService {
     fun getRecipeByIdIn(recipeIds: List<Int>): List<Recipe>
     fun getAllRecipe(): List<Recipe>
-    fun getRecipe(recipeId: Int): Optional<Recipe>
+    fun getRecipe(recipeId: Int): Recipe
     fun getRecipeByKeyword(keyword: String): List<Recipe>
 
 }

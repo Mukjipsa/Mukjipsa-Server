@@ -56,7 +56,7 @@ class RecipeFacade(
             it.id
         }
 
-        val recipe = recipeService.getRecipe(recipeId).get()
+        val recipe = recipeService.getRecipe(recipeId)
         val isBookmarked = bookmarkService.getBookmark(userId, recipeId)
 
         val recipeDto: RecipeDto = RecipeDto(
@@ -166,10 +166,10 @@ class RecipeFacade(
             )
         }
         return RecipeListResponseDto(
-                message = "레시피 조회 성공",
-                status = HttpStatus.OK.value(),
-                success = true,
-                data = data,
+            message = "레시피 조회 성공",
+            status = HttpStatus.OK.value(),
+            success = true,
+            data = data,
         )
     }
 }
