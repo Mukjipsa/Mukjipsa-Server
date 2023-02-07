@@ -17,7 +17,10 @@ enum class ErrorCode(
 
     // Internal Issue
     NPE(501, "NPE001", "Null Point Exception 발생"),
-    INVALID_DATA_ACCESS_API_USAGE_EXCEPTION(500, "DSL001", "QueryDSL Error 발생")
+    INVALID_DATA_ACCESS_API_USAGE_EXCEPTION(500, "DSL001", "QueryDSL Error 발생"),
 
-    ;
+    // 로그인
+    INVALID_PROVIDER_NAME(400,"", "유효하지 않은 providerName 입니다."),
+    FAILED_TO_VALIDATE_APPLE_LOGIN(400,"", "애플 로그인에 실패하였습니다."),
+    FAILED_TO_FIND_AVALIABLE_RSA(400,"","일치하는 공개키가 없습니다")
 }
