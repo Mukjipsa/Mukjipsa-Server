@@ -34,9 +34,17 @@ class AuthServiceImpl(
 ) : AuthService {
     override fun getUserId(): Int {
         return (SecurityContextHolder.getContext().authentication as JwtAuthenticationToken).getUserDetails()?.id
-            ?: throw UserNotFoundException("user가 존재하지 않습니다.")
+                ?: throw UserNotFoundException("user가 존재하지 않습니다.")
     }
 
+    override fun refreshWithToken(userToken: String): LoginResponse {
+        val userId: Int = jwtAuthenticationProvider.verifyAndDecodeRefreshToken(userToken);
+
+        val accessToken: String = jwtAuthenticationProvider.generateAccessToken(userId)
+        val refreshToken: String = jwtAuthenticationProvider.generateRefreshToken(userId)
+
+        return LoginResponse(accessToken, refreshToken)
+    }
 
     @Transactional
     override fun loginWithToken(providerName: String, userToken: String): LoginResponse {
@@ -76,27 +84,29 @@ class AuthServiceImpl(
     }
 
     private fun getUserProfileByToken(providerName: String, userToken: String): User {
-        var ssoId =""
-        var email =""
+        var ssoId = ""
+        var email = ""
         when (providerName) {
             "kakao" -> {
                 val userInfo = getKakaoUserInfoByToken(userToken)
-                if(userInfo.id != null && userInfo.kakao_account?.email != null){
+                if (userInfo.id != null && userInfo.kakao_account?.email != null) {
                     ssoId = userInfo.id as String
                     email = userInfo.kakao_account?.email as String
                 }
             }
+
             "apple" -> {
                 val userInfo = getAppleUserInfoByToken(userToken)
 
                 ssoId = userInfo["sub"] as String
                 email = userInfo["email"] as String
             }
+
             else -> throw BusinessException(ErrorCode.INVALID_PROVIDER_NAME)
         }
 
         val user = userRepository.findBySsoId(ssoId)
-        return if (user == null ) {
+        return if (user == null) {
             val newUser = User(
                     email = email,
                     provider = providerName,
