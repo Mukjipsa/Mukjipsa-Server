@@ -3,7 +3,9 @@ package com.mukjipsa.service.impl
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mukjipsa.common.authentication.jwt.JwtAuthenticationProvider
+import com.mukjipsa.common.authentication.jwt.JwtAuthenticationToken
 import com.mukjipsa.common.exception.BusinessException
+import com.mukjipsa.common.exception.UserNotFoundException
 import com.mukjipsa.common.exception.response.ErrorCode
 import com.mukjipsa.contoroller.AppleClient
 import com.mukjipsa.contoroller.KakaoClient
@@ -14,6 +16,7 @@ import com.mukjipsa.service.dto.KakaoProfile
 import com.mukjipsa.service.dto.LoginResponse
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.math.BigInteger
 import java.security.KeyFactory
@@ -30,10 +33,8 @@ class AuthServiceImpl(
         private val kakoClient: KakaoClient,
 ) : AuthService {
     override fun getUserId(): Int {
-//        return (SecurityContextHolder.getContext().authentication as JwtAuthenticationToken).getUserDetails()?.id
-//            ?: throw UserNotFoundException("user가 존재하지 않습니다.")
-        // login 구현 전까지 개발용으로 사용.
-        return 1
+        return (SecurityContextHolder.getContext().authentication as JwtAuthenticationToken).getUserDetails()?.id
+            ?: throw UserNotFoundException("user가 존재하지 않습니다.")
     }
 
 
