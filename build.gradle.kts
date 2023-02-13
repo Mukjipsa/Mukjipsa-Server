@@ -18,28 +18,39 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("mysql:mysql-connector-java")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-// https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    implementation("mysql:mysql-connector-java:8.0.28")
-
     //jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.4.2")
+
+    //spring cloud
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0")
 
     // security
     implementation("org.springframework.boot:spring-boot-starter-security")
-// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
-    // https://mvnrepository.com/artifact/com.google.apis/google-api-services-youtube
     implementation("com.google.apis:google-api-services-youtube:v3-rev212-1.25.0")
+
+    // gson
+    implementation("com.google.code.gson:gson:2.8.7")
+
+}
+
+dependencyManagement {
+    imports {
+        /* Spring Cloud Dependency */
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.2")
+    }
 }
 
 tasks.withType<KotlinCompile> {

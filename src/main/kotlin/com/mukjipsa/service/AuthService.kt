@@ -8,4 +8,7 @@ interface AuthService {
 
     @Transactional
     fun loginWithToken(providerName: String, userToken: String): LoginResponse
+
+    @Transactional
+    fun refreshWithToken(userToken: String): LoginResponse
 }

@@ -1,16 +1,27 @@
 package com.mukjipsa.service.impl
 
-import com.fasterxml.jackson.core.JsonProcessingException
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mukjipsa.common.authentication.jwt.JwtAuthenticationProvider
+import com.mukjipsa.common.authentication.jwt.JwtAuthenticationToken
+import com.mukjipsa.common.exception.BusinessException
 import com.mukjipsa.common.exception.UserNotFoundException
+import com.mukjipsa.common.exception.response.ErrorCode
+import com.mukjipsa.contoroller.AppleClient
+import com.mukjipsa.contoroller.KakaoClient
 import com.mukjipsa.domain.User
 import com.mukjipsa.infrastructure.UserRepository
 import com.mukjipsa.service.AuthService
 import com.mukjipsa.service.dto.KakaoProfile
 import com.mukjipsa.service.dto.LoginResponse
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jwts
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import org.springframework.web.reactive.function.client.WebClient
+import java.math.BigInteger
+import java.security.KeyFactory
+import java.security.spec.RSAPublicKeySpec
+import java.util.*
 import javax.transaction.Transactional
 
 
@@ -18,52 +29,89 @@ import javax.transaction.Transactional
 class AuthServiceImpl(
         private val jwtAuthenticationProvider: JwtAuthenticationProvider,
         private val userRepository: UserRepository,
+        private val appleClient: AppleClient,
+        private val kakoClient: KakaoClient,
 ) : AuthService {
     override fun getUserId(): Int {
-//        return (SecurityContextHolder.getContext().authentication as JwtAuthenticationToken).getUserDetails()?.id
-//            ?: throw UserNotFoundException("user가 존재하지 않습니다.")
-        // login 구현 전까지 개발용으로 사용.
-        return 1
+        return (SecurityContextHolder.getContext().authentication as JwtAuthenticationToken).getUserDetails()?.id
+                ?: throw UserNotFoundException("user가 존재하지 않습니다.")
+    }
+
+    override fun refreshWithToken(userToken: String): LoginResponse {
+        val userId: Int = jwtAuthenticationProvider.verifyAndDecodeRefreshToken(userToken);
+
+        val accessToken: String = jwtAuthenticationProvider.generateAccessToken(userId)
+        val refreshToken: String = jwtAuthenticationProvider.generateRefreshToken(userId)
+
+        return LoginResponse(accessToken, refreshToken)
     }
 
     @Transactional
     override fun loginWithToken(providerName: String, userToken: String): LoginResponse {
-        val user: User = getUserProfileByToken(providerName, userToken)
+        val user: User = getUserProfileByToken(providerName, userToken);
+
         val accessToken: String = jwtAuthenticationProvider.generateAccessToken(user.id)
         val refreshToken: String = jwtAuthenticationProvider.generateRefreshToken(user.id)
+
         return LoginResponse(accessToken, refreshToken)
     }
 
-    private fun getUserAttributesByToken(userToken: String): KakaoProfile? {
-        val wc = WebClient.create("https://kapi.kakao.com/v2/user/me")
-        val response: String? = wc.get()
-                .uri("https://kapi.kakao.com/v2/user/me")
-                .header("Authorization", "Bearer $userToken")
-                .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
-                .retrieve()
-                .bodyToMono(String::class.java)
-                .block()
-        val objectMapper = ObjectMapper()
-        var kakaoProfile: KakaoProfile? = null
-
-        try {
-            kakaoProfile = objectMapper.readValue(response, KakaoProfile::class.java)
-        } catch (e: JsonProcessingException) {
-            e.printStackTrace()
-        }
+    private fun getKakaoUserInfoByToken(userToken: String): KakaoProfile {
+        val kakaoProfile: KakaoProfile = kakoClient.getUserInfo("Bearer $userToken")
         return kakaoProfile
+
+    }
+
+    private fun getAppleUserInfoByToken(userToken: String): Claims {
+        val response = appleClient.getAppleAuthPublicKey();
+        val headerOfIdentityToken = userToken.substring(0, userToken.indexOf("."))
+        val header = ObjectMapper().readValue(String(Base64.getDecoder().decode(headerOfIdentityToken)), Map::class.java)
+
+        val key = response.getMatchedKeyBy(header["kid"] as String, header["alg"] as String)
+                ?: throw BusinessException(ErrorCode.FAILED_TO_FIND_AVALIABLE_RSA)
+
+        val nBytes = Base64.getUrlDecoder().decode(key.n)
+        val eBytes = Base64.getUrlDecoder().decode(key.e)
+
+        val n = BigInteger(1, nBytes)
+        val e = BigInteger(1, eBytes)
+
+        val publicKeySpec = RSAPublicKeySpec(n, e)
+        val keyFactory = KeyFactory.getInstance(key.kty)
+        val publicKey = keyFactory.generatePublic(publicKeySpec)
+
+        return Jwts.parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(userToken).body
     }
 
     private fun getUserProfileByToken(providerName: String, userToken: String): User {
-        val userAttributesByToken =
-                getUserAttributesByToken(userToken)
-        val kakaoId = userAttributesByToken?.id ?: throw UserNotFoundException("error sso")
-        val user = userRepository.findBySsoId(kakaoId)
+        var ssoId = ""
+        var email = ""
+        when (providerName) {
+            "kakao" -> {
+                val userInfo = getKakaoUserInfoByToken(userToken)
+                if (userInfo.id != null && userInfo.kakao_account?.email != null) {
+                    ssoId = userInfo.id as String
+                    email = userInfo.kakao_account?.email as String
+                }
+            }
+
+            "apple" -> {
+                val userInfo = getAppleUserInfoByToken(userToken)
+
+                ssoId = userInfo["sub"] as String
+                email = userInfo["email"] as String
+            }
+
+            else -> throw BusinessException(ErrorCode.INVALID_PROVIDER_NAME)
+        }
+
+        val user = userRepository.findBySsoId(ssoId)
         return if (user == null) {
             val newUser = User(
-                    email = "sso",
+                    email = email,
                     provider = providerName,
-                    ssoId = kakaoId,
+                    ssoId = ssoId,
+                    ingredientsRound = 0,
             )
             userRepository.save(newUser)
         } else {
