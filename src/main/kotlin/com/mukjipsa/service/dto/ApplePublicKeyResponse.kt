@@ -2,7 +2,7 @@ package com.mukjipsa.service.dto
 
 import java.util.*
 
-class ApplePublicKeyResponse(var keys: List<Key>) {
+class ApplePublicKeyResponse(val keys: List<Key>) {
     data class Key(
             var kty: String,
             var kid: String,
