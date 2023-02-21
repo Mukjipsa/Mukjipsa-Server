@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_ROOT="/home/ec2-user/app/deploy"
+PROJECT_ROOT="/home/ubuntu/action"
 JAR_FILE="$PROJECT_ROOT/build/libs/mukjipsa-0.0.1-SNAPSHOT.jar"
 
 APP_LOG="$PROJECT_ROOT/application.log"
