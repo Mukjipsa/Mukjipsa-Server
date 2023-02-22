@@ -1,5 +1,6 @@
 package com.mukjipsa.common.authentication.jwt
 
+import com.mukjipsa.common.authentication.dto.CustomUserDetails
 import com.mukjipsa.common.exception.UserNotFoundException
 import com.mukjipsa.service.UserService
 import io.jsonwebtoken.Claims
@@ -45,7 +46,7 @@ class JwtAuthenticationProvider(
         return JwtAuthenticationToken::class.java.isAssignableFrom(authentication)
     }
 
-    fun verifyAndDecodeRefreshToken(refreshToken: String): Int {
+    fun verifyAndDecodeRefreshToken(refreshToken: String): CustomUserDetails {
         val decode = JwtUtil(refreshSecretKey).decodeToken(refreshToken)
         val userId = decode?.get("id") as Int? ?: throw UserNotFoundException("user not found")
         val userInfo = userService.getAuthUserById(userId)
@@ -56,7 +57,7 @@ class JwtAuthenticationProvider(
                         credentials = userInfo.password,
                         userDetails = userInfo
                 )
-        return userId
+        return userInfo
     }
 
     fun getClaimAndKey(
