@@ -65,7 +65,7 @@ class AuthServiceImpl(
                 TimeUnit.MILLISECONDS
         );
 
-        return LoginResponse(accessToken, refreshToken)
+        return LoginResponse(accessToken, newRefreshToken)
     }
 
     @Transactional
