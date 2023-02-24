@@ -108,7 +108,7 @@ class SearchServiceImpl(
         recipeRepository.saveAll(recipeEntityList)
         ingredients.map { ingredient ->
             if (!listOf("백미", "참쌀", "현미", "흑미", "즉석밥").contains(ingredient.name)) {
-                val test = recipeRepository.findAllByContentLike("%${ingredient.name}%")
+                val test = recipeRepository.findByContentContains("%${ingredient.name}%")
                 recipeIngredientRepository.saveAll(test.map { recipe ->
                     RecipeIngredient(
                             recipeId = recipe.id,

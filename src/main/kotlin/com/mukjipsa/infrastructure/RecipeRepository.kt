@@ -7,5 +7,5 @@ interface RecipeRepository : JpaRepository<Recipe, Int> {
 
     fun findByIdIn(ids: List<Int>): List<Recipe>
 
-    fun findAllByContentLike(keywords: String): List<Recipe>
+    fun findByContentContains(content: String): List<Recipe>
 }
