@@ -27,8 +27,6 @@ class RecipeServiceImpl(
     }
 
     override fun getRecipeByKeyword(keyword: String): List<Recipe> {
-        val param = "%$keyword%"
-        LoggerFactory.getLogger(javaClass).info("[TEST] $param")
-        return recipeRepository.findByContentLike(param)
+        return recipeRepository.findByContentLike("%$keyword%")
     }
 }
