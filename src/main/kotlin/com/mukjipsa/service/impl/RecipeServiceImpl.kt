@@ -5,7 +5,6 @@ import com.mukjipsa.domain.Recipe
 import com.mukjipsa.infrastructure.RecipeRepository
 import com.mukjipsa.service.RecipeService
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class RecipeServiceImpl(
@@ -26,6 +25,6 @@ class RecipeServiceImpl(
     }
 
     override fun getRecipeByKeyword(keyword: String): List<Recipe> {
-        return recipeRepository.findByContentContains(keyword)
+        return recipeRepository.findByContentLike("%$keyword%")
     }
 }
