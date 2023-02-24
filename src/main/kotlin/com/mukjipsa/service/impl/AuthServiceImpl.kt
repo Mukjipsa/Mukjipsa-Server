@@ -13,7 +13,6 @@ import com.mukjipsa.domain.User
 import com.mukjipsa.infrastructure.UserRepository
 import com.mukjipsa.service.AuthService
 import com.mukjipsa.service.dto.KakaoProfile
-import com.mukjipsa.service.dto.LoginResponse
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import org.springframework.security.core.context.SecurityContextHolder
@@ -27,37 +26,37 @@ import javax.transaction.Transactional
 
 @Service
 class AuthServiceImpl(
-        private val jwtAuthenticationProvider: JwtAuthenticationProvider,
-        private val userRepository: UserRepository,
-        private val appleClient: AppleClient,
-        private val kakoClient: KakaoClient,
+    private val jwtAuthenticationProvider: JwtAuthenticationProvider,
+    private val userRepository: UserRepository,
+    private val appleClient: AppleClient,
+    private val kakaoClient: KakaoClient,
 ) : AuthService {
     override fun getUserId(): Int {
         return (SecurityContextHolder.getContext().authentication as JwtAuthenticationToken).getUserDetails()?.id
                 ?: throw UserNotFoundException("user가 존재하지 않습니다.")
     }
 
-    override fun refreshWithToken(userToken: String): LoginResponse {
+    override fun refreshWithToken(userToken: String): Pair<String, String> {
         val userId: Int = jwtAuthenticationProvider.verifyAndDecodeRefreshToken(userToken);
 
         val accessToken: String = jwtAuthenticationProvider.generateAccessToken(userId)
         val refreshToken: String = jwtAuthenticationProvider.generateRefreshToken(userId)
 
-        return LoginResponse(accessToken, refreshToken)
+        return Pair(accessToken, refreshToken)
     }
 
     @Transactional
-    override fun loginWithToken(providerName: String, userToken: String): LoginResponse {
+    override fun loginWithToken(providerName: String, userToken: String): Pair<String, String> {
         val user: User = getUserProfileByToken(providerName, userToken);
 
         val accessToken: String = jwtAuthenticationProvider.generateAccessToken(user.id)
         val refreshToken: String = jwtAuthenticationProvider.generateRefreshToken(user.id)
 
-        return LoginResponse(accessToken, refreshToken)
+        return Pair(accessToken, refreshToken)
     }
 
     private fun getKakaoUserInfoByToken(userToken: String): KakaoProfile {
-        val kakaoProfile: KakaoProfile = kakoClient.getUserInfo("Bearer $userToken")
+        val kakaoProfile: KakaoProfile = kakaoClient.getUserInfo("Bearer $userToken")
         return kakaoProfile
 
     }
