@@ -13,12 +13,14 @@ class BookmarkFacade(
         private val bookmarkService: BookmarkService,
         private val recipeService: RecipeService,
 ) {
-    fun toggleBookmark(userId: Int, recipeId: Int) {
+    fun toggleBookmark(userId: Int, recipeId: Int): Boolean {
         val bookmark = bookmarkService.getBookmark(userId, recipeId)
-        if (bookmark != null) {
+        return if (bookmark != null) {
             bookmarkService.deleteBookmark(bookmark.id)
+            false
         } else {
             bookmarkService.addBookmark(userId, recipeId)
+            true
         }
     }
 
