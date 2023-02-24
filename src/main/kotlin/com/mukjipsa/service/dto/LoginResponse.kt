@@ -1,6 +1,9 @@
 package com.mukjipsa.service.dto
 
 data class LoginResponse(
-        val accessToken: String,
-        val refreshToken: String,
+    val status: Int,
+    val success: Boolean,
+    val message: String,
+    val accessToken: String,
+    val refreshToken: String,
 )
