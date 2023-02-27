@@ -50,20 +50,20 @@ class AuthServiceImpl(
     override fun refreshWithToken(userToken: String): Pair<String, String> {
         val user: CustomUserDetails = jwtAuthenticationProvider.verifyAndDecodeRefreshToken(userToken);
 
-//        val refreshToken = redisTemplate.opsForValue()[user.email]
-//        if (refreshToken != userToken) {
-//            throw BusinessException(ErrorCode.REFRESH_TOKEN_DOESNT_MATCH);
-//        }
+        val refreshToken = redisTemplate.opsForValue()[user.email]
+        if (refreshToken != userToken) {
+            throw BusinessException(ErrorCode.REFRESH_TOKEN_DOESNT_MATCH);
+        }
 
         val accessToken: String = jwtAuthenticationProvider.generateAccessToken(user.id)
         val newRefreshToken: String = jwtAuthenticationProvider.generateRefreshToken(user.id)
 
-//        redisTemplate.opsForValue().set(
-//                user.email,
-//                newRefreshToken,
-//                refresh_token_expire_time,
-//                TimeUnit.MILLISECONDS
-//        );
+        redisTemplate.opsForValue().set(
+                user.email,
+                newRefreshToken,
+                refresh_token_expire_time,
+                TimeUnit.MILLISECONDS
+        );
 
         return Pair(accessToken, newRefreshToken)
     }
@@ -75,13 +75,13 @@ class AuthServiceImpl(
         val accessToken: String = jwtAuthenticationProvider.generateAccessToken(user.id)
         val refreshToken: String = jwtAuthenticationProvider.generateRefreshToken(user.id)
 
-//        // Redis에 저장 - 만료 시간 설정을 통해 자동 삭제 처리
-//        redisTemplate.opsForValue().set(
-//                user.email,
-//                refreshToken,
-//                refresh_token_expire_time,
-//                TimeUnit.MILLISECONDS
-//        );
+        // Redis에 저장 - 만료 시간 설정을 통해 자동 삭제 처리
+        redisTemplate.opsForValue().set(
+                user.email,
+                refreshToken,
+                refresh_token_expire_time,
+                TimeUnit.MILLISECONDS
+        );
 
         return Pair(accessToken, refreshToken)
     }
