@@ -44,6 +44,11 @@ dependencies {
     // gson
     implementation("com.google.code.gson:gson:2.8.7")
 
+    // redis
+    implementation ("org.springframework.boot:spring-boot-starter-data-redis")
+
+    implementation("io.netty:netty-resolver-dns-native-macos:4.1.79.Final:osx-aarch_64")
+
 }
 
 dependencyManagement {
@@ -56,7 +61,7 @@ dependencyManagement {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
 }
 

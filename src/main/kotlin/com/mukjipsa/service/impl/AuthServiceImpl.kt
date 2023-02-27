@@ -2,6 +2,8 @@ package com.mukjipsa.service.impl
 
 
 import com.fasterxml.jackson.databind.ObjectMapper
+
+import com.mukjipsa.common.authentication.dto.CustomUserDetails
 import com.mukjipsa.common.authentication.jwt.JwtAuthenticationProvider
 import com.mukjipsa.common.authentication.jwt.JwtAuthenticationToken
 import com.mukjipsa.common.exception.BusinessException
@@ -13,34 +15,55 @@ import com.mukjipsa.domain.User
 import com.mukjipsa.infrastructure.UserRepository
 import com.mukjipsa.service.AuthService
 import com.mukjipsa.service.dto.KakaoProfile
+import com.mukjipsa.service.dto.LoginResponse
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.math.BigInteger
 import java.security.KeyFactory
 import java.security.spec.RSAPublicKeySpec
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.transaction.Transactional
 
 
 @Service
 class AuthServiceImpl(
-    private val jwtAuthenticationProvider: JwtAuthenticationProvider,
-    private val userRepository: UserRepository,
-    private val appleClient: AppleClient,
-    private val kakaoClient: KakaoClient,
+        private val jwtAuthenticationProvider: JwtAuthenticationProvider,
+        private val userRepository: UserRepository,
+        private val appleClient: AppleClient,
+        private val kakoClient: KakaoClient,
+        private val redisTemplate: RedisTemplate<String, String>,
+        @Value("\${jwt.refresh-expires-in}")
+        private val refresh_token_expire_time: Long = 2592000,
 ) : AuthService {
+
+
     override fun getUserId(): Int {
         return (SecurityContextHolder.getContext().authentication as JwtAuthenticationToken).getUserDetails()?.id
                 ?: throw UserNotFoundException("user가 존재하지 않습니다.")
     }
 
     override fun refreshWithToken(userToken: String): Pair<String, String> {
-        val userId: Int = jwtAuthenticationProvider.verifyAndDecodeRefreshToken(userToken);
+        val user: CustomUserDetails = jwtAuthenticationProvider.verifyAndDecodeRefreshToken(userToken);
 
-        val accessToken: String = jwtAuthenticationProvider.generateAccessToken(userId)
-        val refreshToken: String = jwtAuthenticationProvider.generateRefreshToken(userId)
+        val refreshToken = redisTemplate.opsForValue()[user.email]
+        if (refreshToken != userToken) {
+            throw BusinessException(ErrorCode.REFRESH_TOKEN_DOESNT_MATCH);
+        }
+
+        val accessToken: String = jwtAuthenticationProvider.generateAccessToken(user.id)
+        val newRefreshToken: String = jwtAuthenticationProvider.generateRefreshToken(user.id)
+
+        redisTemplate.opsForValue().set(
+                user.email,
+                newRefreshToken,
+                refresh_token_expire_time,
+                TimeUnit.MILLISECONDS
+        );
 
         return Pair(accessToken, refreshToken)
     }
@@ -52,13 +75,20 @@ class AuthServiceImpl(
         val accessToken: String = jwtAuthenticationProvider.generateAccessToken(user.id)
         val refreshToken: String = jwtAuthenticationProvider.generateRefreshToken(user.id)
 
+        // Redis에 저장 - 만료 시간 설정을 통해 자동 삭제 처리
+        redisTemplate.opsForValue().set(
+                user.email,
+                refreshToken,
+                refresh_token_expire_time,
+                TimeUnit.MILLISECONDS
+        );
+
         return Pair(accessToken, refreshToken)
     }
 
     private fun getKakaoUserInfoByToken(userToken: String): KakaoProfile {
-        val kakaoProfile: KakaoProfile = kakaoClient.getUserInfo("Bearer $userToken")
+        val kakaoProfile: KakaoProfile = kakoClient.getUserInfo("Bearer $userToken")
         return kakaoProfile
-
     }
 
     private fun getAppleUserInfoByToken(userToken: String): Claims {

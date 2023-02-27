@@ -22,5 +22,6 @@ enum class ErrorCode(
     // 로그인
     INVALID_PROVIDER_NAME(400,"", "유효하지 않은 providerName 입니다."),
     FAILED_TO_VALIDATE_APPLE_LOGIN(400,"", "애플 로그인에 실패하였습니다."),
-    FAILED_TO_FIND_AVALIABLE_RSA(400,"","일치하는 공개키가 없습니다")
+    FAILED_TO_FIND_AVALIABLE_RSA(400,"","일치하는 공개키가 없습니다"),
+    REFRESH_TOKEN_DOESNT_MATCH(400,"","리프레시 토큰이 일치하지 않습니다"),
 }
