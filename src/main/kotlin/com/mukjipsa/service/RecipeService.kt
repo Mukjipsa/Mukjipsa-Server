@@ -8,6 +8,8 @@ interface RecipeService {
     fun getRecipeByIdIn(recipeIds: List<Int>): List<Recipe>
     fun getAllRecipe(): List<Recipe>
     fun getRecipe(recipeId: Int): Recipe
+    fun saveSearchKeyword(userId: Int, keyword: String)
+
     fun getRecipeByKeyword(keyword: String): List<Recipe>
 
 }

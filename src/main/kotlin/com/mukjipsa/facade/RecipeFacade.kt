@@ -145,6 +145,8 @@ class RecipeFacade(
     }
 
     fun getSearchRecipe(userId: Int, keyword: String): RecipeListResponseDto {
+        recipeService.saveSearchKeyword(userId, keyword)
+
         val data = recipeService.getRecipeByKeyword(keyword).map {
             RecipeDto(
                 content = it.content,
