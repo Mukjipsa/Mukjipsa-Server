@@ -4,6 +4,7 @@ import com.mukjipsa.domain.SearchKeyword
 import com.mukjipsa.facade.dto.SearchKeywordDto
 import com.mukjipsa.facade.dto.SearchKeywordResponseDto
 import com.mukjipsa.service.SearchService
+import org.springframework.data.redis.core.ListOperations
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
@@ -38,10 +39,7 @@ class SearchFacade(
 
     }
 
-    fun deleteKeyword(keywordId: Int) {
-        val keyword: SearchKeyword = searchService.getKeyword(keywordId).get()
-        if (keyword != null) {
-            searchService.deleteKeyword(keywordId)
-        }
+    fun deleteKeyword(userId: Int, keyword: String) {
+        searchService.deleteKeyword(userId, keyword)
     }
 }

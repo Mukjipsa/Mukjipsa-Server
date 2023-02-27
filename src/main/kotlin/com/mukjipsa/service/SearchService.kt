@@ -7,6 +7,5 @@ interface SearchService {
     fun getYoutube(nextToken: String?)
     fun extractIngredient()
     fun getMyKeywords(userId: Int): List<SearchKeyword>
-    fun deleteKeyword(keywordId: Int)
-    fun getKeyword(keywordId: Int): Optional<SearchKeyword>
+    fun deleteKeyword(userId: Int, keyword: String)
 }

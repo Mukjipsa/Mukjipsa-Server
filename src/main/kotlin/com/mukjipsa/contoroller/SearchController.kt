@@ -24,11 +24,11 @@ public class SearchController(
         return searchFacade.getMyKeywords(userId)
     }
 
-    @DeleteMapping("/{keywordId}")
-    fun deleteKeyword(@PathVariable keywordId: String) {
+    @DeleteMapping("")
+    fun deleteKeyword(@RequestParam("keyword") keyword: String) {
         //TODO 특정 검색어 삭제
-        val keywordId = Integer.valueOf(keywordId)
-        searchFacade.deleteKeyword(keywordId)
+        val userId = authService.getUserId()
+        searchFacade.deleteKeyword(userId, keyword)
     }
 
 

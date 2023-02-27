@@ -9,6 +9,8 @@ import com.mukjipsa.domain.*
 import com.mukjipsa.infrastructure.*
 import com.mukjipsa.service.SearchService
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.redis.core.ListOperations
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
 import java.util.*
@@ -21,7 +23,8 @@ class SearchServiceImpl(
         private val ingredientRepository: IngredientRepository,
         private val recipeRepository: RecipeRepository,
         private val recipeIngredientRepository: RecipeIngredientRepository,
-        private val searchRepository: SearchRepository
+        private val searchRepository: SearchRepository,
+        private val redisTemplate: RedisTemplate<String, String>,
 ) : SearchService {
 
     @Value("\${youtube.secretKey}")
@@ -119,15 +122,15 @@ class SearchServiceImpl(
         }
     }
 
+    //고치기
     override fun getMyKeywords(userId: Int): List<SearchKeyword> {
         return searchRepository.findAllByUserId(userId)
     }
 
-    override fun deleteKeyword(keywordId: Int) {
-        searchRepository.deleteById(keywordId)
+    override fun deleteKeyword(userId: Int, keyword: String) {
+        val stringStringSetOperations = redisTemplate.opsForSet()
+        val key: String = "userId::" + userId;
+        stringStringSetOperations.remove(key, keyword)
     }
 
-    override fun getKeyword(keywordId: Int): Optional<SearchKeyword> {
-        return searchRepository.findById(keywordId)
-    }
 }
