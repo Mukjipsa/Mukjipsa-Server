@@ -4,11 +4,10 @@ import com.mukjipsa.common.exception.EntityNotFoundException
 import com.mukjipsa.domain.Recipe
 import com.mukjipsa.infrastructure.RecipeRepository
 import com.mukjipsa.service.RecipeService
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.data.redis.core.ListOperations
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
+
 
 @Service
 class RecipeServiceImpl(
@@ -31,12 +30,12 @@ class RecipeServiceImpl(
 
     override fun saveSearchKeyword(userId: Int, keyword: String) {
         val key: String = "userId::" + userId;
-        val stringStringListOperations: ListOperations<String, String> = redisTemplate.opsForList();
-        val size: Long? = stringStringListOperations.size(key)
+        val stringStringSetOperations = redisTemplate.opsForSet()
+        val size: Long? = stringStringSetOperations.size(key)
         if (size != null && size > 4) {
-            stringStringListOperations.leftPop(key);
+            stringStringSetOperations.pop(key)
         }
-        stringStringListOperations.rightPush(key, keyword);
+        stringStringSetOperations.add(key, keyword);
     }
 
     override fun getRecipeByKeyword(keyword: String): List<Recipe> {
