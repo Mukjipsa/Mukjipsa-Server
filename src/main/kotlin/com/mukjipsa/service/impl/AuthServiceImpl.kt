@@ -47,7 +47,7 @@ class AuthServiceImpl(
                 ?: throw UserNotFoundException("user가 존재하지 않습니다.")
     }
 
-    override fun refreshWithToken(userToken: String): LoginResponse {
+    override fun refreshWithToken(userToken: String): Pair<String, String> {
         val user: CustomUserDetails = jwtAuthenticationProvider.verifyAndDecodeRefreshToken(userToken);
 
         val refreshToken = redisTemplate.opsForValue()[user.email]
@@ -65,11 +65,11 @@ class AuthServiceImpl(
                 TimeUnit.MILLISECONDS
         );
 
-        return LoginResponse(accessToken, newRefreshToken)
+        return Pair(accessToken, refreshToken)
     }
 
     @Transactional
-    override fun loginWithToken(providerName: String, userToken: String): LoginResponse {
+    override fun loginWithToken(providerName: String, userToken: String): Pair<String, String> {
         val user: User = getUserProfileByToken(providerName, userToken);
 
         val accessToken: String = jwtAuthenticationProvider.generateAccessToken(user.id)
@@ -83,13 +83,12 @@ class AuthServiceImpl(
                 TimeUnit.MILLISECONDS
         );
 
-        return LoginResponse(accessToken, refreshToken)
+        return Pair(accessToken, refreshToken)
     }
 
     private fun getKakaoUserInfoByToken(userToken: String): KakaoProfile {
         val kakaoProfile: KakaoProfile = kakoClient.getUserInfo("Bearer $userToken")
         return kakaoProfile
-
     }
 
     private fun getAppleUserInfoByToken(userToken: String): Claims {

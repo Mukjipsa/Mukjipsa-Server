@@ -4,8 +4,9 @@ import com.mukjipsa.common.exception.EntityNotFoundException
 import com.mukjipsa.domain.Recipe
 import com.mukjipsa.infrastructure.RecipeRepository
 import com.mukjipsa.service.RecipeService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class RecipeServiceImpl(
@@ -26,6 +27,6 @@ class RecipeServiceImpl(
     }
 
     override fun getRecipeByKeyword(keyword: String): List<Recipe> {
-        return recipeRepository.findAllByContentLike(keyword)
+        return recipeRepository.findByContentLike("%$keyword%")
     }
 }

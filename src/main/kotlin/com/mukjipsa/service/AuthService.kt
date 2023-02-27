@@ -7,8 +7,8 @@ interface AuthService {
     fun getUserId(): Int
 
     @Transactional
-    fun loginWithToken(providerName: String, userToken: String): LoginResponse
+    fun loginWithToken(providerName: String, userToken: String): Pair<String, String>
 
     @Transactional
-    fun refreshWithToken(userToken: String): LoginResponse
+    fun refreshWithToken(userToken: String): Pair<String, String>
 }
