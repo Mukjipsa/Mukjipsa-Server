@@ -23,7 +23,7 @@ class SearchServiceImpl(
         private val ingredientRepository: IngredientRepository,
         private val recipeRepository: RecipeRepository,
         private val recipeIngredientRepository: RecipeIngredientRepository,
-        private val searchRepository: SearchRepository,
+        //private val searchRepository: SearchRepository,
         private val redisTemplate: RedisTemplate<String, String>,
 ) : SearchService {
 

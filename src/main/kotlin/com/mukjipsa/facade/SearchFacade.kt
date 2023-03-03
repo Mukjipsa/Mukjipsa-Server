@@ -1,6 +1,6 @@
 package com.mukjipsa.facade
 
-import com.mukjipsa.facade.dto.SearchKeywordDto
+//import com.mukjipsa.facade.dto.SearchKeywordDto
 import com.mukjipsa.facade.dto.SearchKeywordResponseDto
 import com.mukjipsa.service.SearchService
 import org.springframework.data.redis.core.ListOperations
