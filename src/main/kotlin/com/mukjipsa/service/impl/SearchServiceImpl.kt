@@ -122,9 +122,11 @@ class SearchServiceImpl(
         }
     }
 
-    //고치기
-    override fun getMyKeywords(userId: Int): List<SearchKeyword> {
-        return searchRepository.findAllByUserId(userId)
+    override fun getMyKeywords(userId: Int): List<String>? {
+        val stringStringSetOperations = redisTemplate.opsForSet()
+        val key: String = "userId::" + userId;
+        val keywordList = stringStringSetOperations.members(key)?.toList();
+        return keywordList;
     }
 
     override fun deleteKeyword(userId: Int, keyword: String) {

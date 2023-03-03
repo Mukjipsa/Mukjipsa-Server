@@ -1,6 +1,5 @@
 package com.mukjipsa.facade
 
-import com.mukjipsa.domain.SearchKeyword
 import com.mukjipsa.facade.dto.SearchKeywordDto
 import com.mukjipsa.facade.dto.SearchKeywordResponseDto
 import com.mukjipsa.service.SearchService
@@ -13,29 +12,14 @@ class SearchFacade(
         private val searchService: SearchService
 ) {
     fun getMyKeywords(userId: Int): SearchKeywordResponseDto {
-        val keywordList: List<SearchKeyword> = searchService.getMyKeywords(userId)
-        val searchKeywordListDto = mutableListOf<SearchKeywordDto>()
-
-        keywordList.map {
-            val keywordDto: SearchKeywordDto = SearchKeywordDto(
-                    id = it.id,
-                    userId = it.userId,
-                    keyword = it.keyword,
-                    createdAt = it.createdAt,
-                    updatedAt = it.updatedAt
-            )
-            searchKeywordListDto.add(keywordDto)
-        }
-
-        val keywords = searchKeywordListDto.toList()
+        val keywordList: List<String>? = searchService.getMyKeywords(userId)
 
         return SearchKeywordResponseDto(
-                data = keywords,
+                data = keywordList,
                 message = "최근 검색어 조회 성공",
                 status = HttpStatus.OK.value(),
                 success = true
         )
-
 
     }
 

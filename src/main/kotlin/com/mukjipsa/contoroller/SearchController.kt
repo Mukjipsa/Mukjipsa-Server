@@ -31,5 +31,4 @@ public class SearchController(
         searchFacade.deleteKeyword(userId, keyword)
     }
 
-
 }
