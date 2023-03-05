@@ -9,7 +9,6 @@ import com.mukjipsa.domain.*
 import com.mukjipsa.infrastructure.*
 import com.mukjipsa.service.SearchService
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.data.redis.core.ListOperations
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
@@ -23,7 +22,6 @@ class SearchServiceImpl(
         private val ingredientRepository: IngredientRepository,
         private val recipeRepository: RecipeRepository,
         private val recipeIngredientRepository: RecipeIngredientRepository,
-        //private val searchRepository: SearchRepository,
         private val redisTemplate: RedisTemplate<String, String>,
 ) : SearchService {
 
@@ -123,16 +121,16 @@ class SearchServiceImpl(
     }
 
     override fun getMyKeywords(userId: Int): List<String>? {
-        val stringStringSetOperations = redisTemplate.opsForSet()
+        val zSetOperations = redisTemplate.opsForZSet()
         val key: String = "userId::" + userId;
-        val keywordList = stringStringSetOperations.members(key)?.toList();
+        val keywordList = zSetOperations.reverseRange(key,0,-1)?.toList();
         return keywordList;
     }
 
     override fun deleteKeyword(userId: Int, keyword: String) {
-        val stringStringSetOperations = redisTemplate.opsForSet()
+        val zSetOperations = redisTemplate.opsForZSet()
         val key: String = "userId::" + userId;
-        stringStringSetOperations.remove(key, keyword)
+        zSetOperations.remove(key, keyword)
     }
 
 }
