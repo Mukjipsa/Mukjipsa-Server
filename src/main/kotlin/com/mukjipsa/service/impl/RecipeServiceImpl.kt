@@ -34,7 +34,7 @@ class RecipeServiceImpl(
         val zSetOperations = redisTemplate.opsForZSet()
         val size: Long? = zSetOperations.size(key)
         if (size != null && size > 4) {
-            zSetOperations.popMax(key)
+            zSetOperations.popMin(key)
         }
         zSetOperations.add(key, keyword, timestamp.toDouble());
     }
