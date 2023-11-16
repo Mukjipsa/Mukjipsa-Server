@@ -1,35 +1,25 @@
 # Mukjipsa-Server
-먹집사 서버 🍙
-## 먹집사 서버가 앞으로 해야할 일
+## 먹집사 서버 🍙
+- - - 
 
----
+![image](https://github.com/Mukjipsa/Mukjipsa-Server/assets/78267146/883b099b-f61c-4478-8d89-c5b58a13a2d1)
+![image](https://github.com/Mukjipsa/Mukjipsa-Server/assets/78267146/6612565d-5e5d-4670-8026-ce3aa91f5a59)
+![image](https://github.com/Mukjipsa/Mukjipsa-Server/assets/78267146/a4dc4bec-7e98-4cfe-94b8-e73826b29dfd)
+![image](https://github.com/Mukjipsa/Mukjipsa-Server/assets/78267146/a8398bee-bced-4a9c-b80e-22c100fed477)
+![image](https://github.com/Mukjipsa/Mukjipsa-Server/assets/78267146/1d754a78-6461-4b57-8373-032401ff97d2)
+![image](https://github.com/Mukjipsa/Mukjipsa-Server/assets/78267146/006e9a1d-ceb3-4393-a715-2989d3d95828)
 
-- 에러 내성
-    - 현재 에러 핸들링이 하나도 안되고 있음.
-        - ex) 조회할 값이 없을 때…
-    - reference
+<br><br>
 
-  [[Spring Boot] @ControllerAdvice을 이용한 Exception 처리](https://bamdule.tistory.com/92)
+### API Document
+> https://joyous-ghost-8c7.notion.site/API-632ede5652874520a0f74cb96d483402?pvs=4
 
-- 테스트 코드 작성
-    - 테스트 코드가 한 줄 도 없음.
-    - 리팩토링에 대한 내성을 키워줌.
-    - reference
+<br><br>
 
-  [SpringBoot 1.4.0 Test 적용하기 (1)](https://jojoldu.tistory.com/33)
+### ERD
+![Untitled](https://github.com/Mukjipsa/Mukjipsa-Server/assets/78267146/d27d4c9b-ffed-41e4-9455-2cb363bf6e32)
 
-- redis 클러스터의 도입(미정)
-    - redis 클러스터를 달면서 redis cluster에 대해 이해하고 공부하는 경험은 도움이 됨.
-    - 어떻게??
-        - 스터디를 해볼까 고민중…
-    - reference
+<br><br>
 
-  [Redis Cluster 동작방식](https://findmypiece.tistory.com/133)
-
-  [5분 안에 구축하는 Redis-Cluster](https://co-de.tistory.com/24)
-
-- DTO 정리
-    - controller에 나가는 dto가 같은 형식이 굉장히 중복되고 있음.
-        - generic을 통해 응답 dto의 중복을 최소화
-    - facade까지 entity가 올라오고 해당 layer에서 dto로 변환하고 있음. 해당 책임을 service로 내리자.
-        - facade에서는 controller로 나가는 dto만 만든다.
+### Contributer
+![image](https://github.com/Mukjipsa/Mukjipsa-Server/assets/78267146/a6344055-6331-417e-add1-7887f5a5a3f0)
