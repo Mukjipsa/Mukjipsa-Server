@@ -1,6 +1,6 @@
 # Mukjipsa-Server
+
 ## 먹집사 서버 🍙
-- - - 
 
 ![image](https://github.com/Mukjipsa/Mukjipsa-Server/assets/78267146/883b099b-f61c-4478-8d89-c5b58a13a2d1)
 ![image](https://github.com/Mukjipsa/Mukjipsa-Server/assets/78267146/6612565d-5e5d-4670-8026-ce3aa91f5a59)
